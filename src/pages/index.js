@@ -41,6 +41,7 @@ const imageVariants = {
 };
 
 export default function Home() {
+  console.log("----&&*&*&", process.env.NEXT_PUBLIC_API_URL);
   // Contact form state and validation
   const [form, setForm] = useState({
     name: "",
@@ -50,6 +51,8 @@ export default function Home() {
   });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   function validate(form) {
     const errs = {};
@@ -64,23 +67,59 @@ export default function Home() {
     } else if (!/^[5-9][0-9]{9}$/.test(form.mobile.trim())) {
       errs.mobile = "Enter a valid 10-digit mobile number starting with 5-9.";
     }
+    if (!form.message.trim()) {
+      errs.message = "Message is required.";
+    }
     return errs;
   }
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: undefined });
+    setSubmitError("");
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const errs = validate(form);
     setErrors(errs);
+
     if (Object.keys(errs).length === 0) {
-      setSubmitted(true);
-      // Here you can handle the form submission (e.g., send to API)
-    } else {
-      setSubmitted(false);
+      setIsSubmitting(true);
+      setSubmitError("");
+
+      try {
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setSubmitted(true);
+          setTimeout(() => {
+            setSubmitted(false);
+          }, 1000);
+          setForm({
+            name: "",
+            email: "",
+            mobile: "",
+            message: "",
+          });
+        } else {
+          setSubmitError(
+            data.message || "Something went wrong. Please try again."
+          );
+        }
+      } catch (error) {
+        setSubmitError("Failed to send message. Please try again.");
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   }
 
@@ -531,6 +570,7 @@ export default function Home() {
                     className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all duration-300"
                     value={form.name}
                     onChange={handleChange}
+                    disabled={isSubmitting}
                   />
                   <span
                     className={`absolute left-0 top-[42px] text-red-400 text-xs mt-1 ${
@@ -548,6 +588,7 @@ export default function Home() {
                     className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all duration-300"
                     value={form.email}
                     onChange={handleChange}
+                    disabled={isSubmitting}
                   />
                   <span
                     className={`absolute left-0 top-[42px] text-red-400 text-xs mt-1 ${
@@ -565,6 +606,7 @@ export default function Home() {
                     className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all duration-300"
                     value={form.mobile}
                     onChange={handleChange}
+                    disabled={isSubmitting}
                   />
                   <span
                     className={`absolute left-0 top-[42px] text-red-400 text-xs mt-1 ${
@@ -574,20 +616,35 @@ export default function Home() {
                     {errors.mobile || " "}
                   </span>
                 </div>
-                <textarea
-                  name="message"
-                  placeholder="Message"
-                  className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 min-h-[120px] transition-all duration-300"
-                  value={form.message}
-                  onChange={handleChange}
-                />
+                <div className="relative">
+                  <textarea
+                    name="message"
+                    placeholder="Message"
+                    className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 min-h-[120px] transition-all duration-300"
+                    value={form.message}
+                    onChange={handleChange}
+                    disabled={isSubmitting}
+                  />
+                  <span
+                    className={`absolute left-0 top-[42px] text-red-400 text-xs mt-1 ${
+                      errors.message ? "" : "invisible"
+                    }`}
+                  >
+                    {errors.message || " "}
+                  </span>
+                </div>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="w-full bg-yellow-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-yellow-600 transition duration-300 shadow-lg hover:shadow-xl"
+                  disabled={isSubmitting}
+                  className={`w-full bg-yellow-500 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-lg hover:shadow-xl ${
+                    isSubmitting
+                      ? "opacity-75 cursor-not-allowed"
+                      : "hover:bg-yellow-600"
+                  }`}
                 >
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </motion.button>
                 {submitted && (
                   <motion.span
@@ -596,6 +653,15 @@ export default function Home() {
                     className="text-green-400 text-center mt-2"
                   >
                     Thank you! Your message has been submitted.
+                  </motion.span>
+                )}
+                {submitError && (
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-red-400 text-center mt-2"
+                  >
+                    {submitError}
                   </motion.span>
                 )}
               </form>
