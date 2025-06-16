@@ -116,11 +116,6 @@ export default function Home() {
           >
             Luxury Clubhouse Management
           </motion.p>
-          <motion.div variants={fadeIn} className="mt-8">
-            <button className="bg-yellow-500 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
-              Discover Our Services
-            </button>
-          </motion.div>
         </motion.div>
       </section>
 
