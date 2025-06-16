@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Playfair_Display, Nunito } from "next/font/google";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 const playfair = Playfair_Display({
@@ -40,6 +40,39 @@ const imageVariants = {
   },
 };
 
+const carouselContent = [
+  {
+    type: "image",
+    url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80",
+    alt: "Luxury Clubhouse Exterior",
+  },
+  {
+    type: "image",
+    url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1920&q=80",
+    alt: "Modern Swimming Pool",
+  },
+  {
+    type: "image",
+    url: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1920&q=80",
+    alt: "Fitness Center",
+  },
+  {
+    type: "image",
+    url: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1920&q=80",
+    alt: "Luxury Lounge",
+  },
+  {
+    type: "image",
+    url: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1920&q=80",
+    alt: "Spa & Wellness",
+  },
+  {
+    type: "image",
+    url: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1920&q=80",
+    alt: "Outdoor Recreation",
+  },
+];
+
 export default function Home() {
   console.log("----&&*&*&", process.env.NEXT_PUBLIC_API_URL);
   // Contact form state and validation
@@ -53,6 +86,44 @@ export default function Home() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [videoError, setVideoError] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % carouselContent.length);
+    }, 4000); // Changed to 4 seconds for better viewing
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
+
+  const handleDotClick = (index) => {
+    setCurrentImageIndex(index);
+    setIsAutoPlaying(false);
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
+
+  const handleVideoError = () => {
+    console.error("Video failed to load");
+    setVideoError(true);
+  };
+
+  const handleVideoLoad = () => {
+    setIsVideoLoaded(true);
+  };
+
+  const handleVideoPlay = () => {
+    setIsVideoPlaying(true);
+  };
+
+  const handleVideoPause = () => {
+    setIsVideoPlaying(false);
+  };
 
   function validate(form) {
     const errs = {};
@@ -125,18 +196,44 @@ export default function Home() {
 
   return (
     <div className={`${nunito.className} min-h-screen w-full bg-white`}>
-      {/* Hero Section */}
-      <section className="relative w-full h-[90vh] flex items-center justify-center bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] overflow-hidden">
-        <div className="absolute inset-0 w-full h-full">
-          <Image
-            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1920&q=80"
-            alt="Luxury Clubhouse"
-            fill
-            className="object-cover opacity-30"
-            priority
-          />
-        </div>
+      {/* Hero Section with Carousel */}
+      <section className="relative w-full h-[90vh] flex items-center justify-center overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentImageIndex}
+            initial={{ opacity: 0.8 }}
+            animate={{ opacity: 0.9 }}
+            exit={{ opacity: 0.7 }}
+            transition={{ duration: 1 }}
+            className="absolute inset-0 w-full h-full"
+          >
+            <Image
+              src={carouselContent[currentImageIndex].url}
+              alt={carouselContent[currentImageIndex].alt}
+              fill
+              className="object-cover"
+              priority
+            />
+          </motion.div>
+        </AnimatePresence>
         <div className="absolute inset-0 bg-gradient-to-br from-black/80 to-black/60" />
+
+        {/* Carousel Navigation Dots */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
+          {carouselContent.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handleDotClick(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                currentImageIndex === index
+                  ? "bg-white scale-125"
+                  : "bg-white/50 hover:bg-white/75"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+
         <motion.div
           initial="hidden"
           animate="visible"
