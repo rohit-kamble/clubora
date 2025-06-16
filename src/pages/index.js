@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Playfair_Display, Nunito } from "next/font/google";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -9,6 +11,34 @@ const nunito = Nunito({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
+
+// Animation variants
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const imageVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
 
 export default function Home() {
   // Contact form state and validation
@@ -55,316 +85,529 @@ export default function Home() {
   }
 
   return (
-    <div className={`${nunito.className} min-h-screen w-full`}>
-      {/* Top bar with logo only */}
-
+    <div className={`${nunito.className} min-h-screen w-full bg-white`}>
       {/* Hero Section */}
-      <section className="relative w-full h-[60vh] flex items-center justify-center">
-        <div className="absolute inset-0 w-full h-full bg-cover bg-center" />
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative z-10 flex flex-col items-center justify-center text-center w-full">
-          <h1
-            className={`${playfair.className} text-6xl md:text-7xl font-bold  mb-4 drop-shadow-lg`}
+      <section className="relative w-full h-[90vh] flex items-center justify-center bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] overflow-hidden">
+        <div className="absolute inset-0 w-full h-full">
+          <Image
+            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1920&q=80"
+            alt="Luxury Clubhouse"
+            fill
+            className="object-cover opacity-30"
+            priority
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-br from-black/80 to-black/60" />
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="relative z-10 flex flex-col items-center justify-center text-center w-full max-w-6xl mx-auto px-4"
+        >
+          <motion.h1
+            variants={fadeIn}
+            className={`${playfair.className} text-7xl md:text-8xl font-bold mb-6 text-white drop-shadow-lg tracking-tight`}
           >
             CLUBORA
-          </h1>
+          </motion.h1>
+          <motion.p
+            variants={fadeIn}
+            className="text-xl md:text-2xl text-gray-200 max-w-2xl leading-relaxed"
+          >
+            Luxury Clubhouse Management
+          </motion.p>
+          <motion.div variants={fadeIn} className="mt-8">
+            <button className="bg-yellow-500 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+              Discover Our Services
+            </button>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Luxury Features Section */}
+      <section className="relative py-20 bg-gradient-to-br from-gray-50 to-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="grid md:grid-cols-3 gap-8"
+          >
+            {[
+              {
+                title: "Premium Amenities",
+                description:
+                  "State-of-the-art facilities designed for luxury living",
+                image:
+                  "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+              },
+              {
+                title: "Exclusive Services",
+                description: "Personalized attention and white-glove service",
+                image:
+                  "https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&fit=crop&w=800&q=80",
+              },
+              {
+                title: "Elite Experience",
+                description: "Curated lifestyle programs and events",
+                image:
+                  "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=800&q=80",
+              },
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                variants={fadeIn}
+                className="relative group overflow-hidden rounded-xl shadow-xl"
+              >
+                <div className="relative h-80">
+                  <Image
+                    src={feature.image}
+                    alt={feature.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <h3
+                      className={`${playfair.className} text-2xl font-bold mb-2`}
+                    >
+                      {feature.title}
+                    </h3>
+                    <p className="text-gray-200">{feature.description}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
       {/* Business Overview Section */}
-      <section className="max-w-3xl mx-auto py-12 text-center">
-        <h2 className={`${playfair.className} text-4xl font-bold mb-4`}>
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="max-w-6xl mx-auto py-20 px-4 text-center bg-white relative overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-[url('/images/pattern.png')] opacity-5" />
+        <motion.h2
+          variants={fadeIn}
+          className={`${playfair.className} text-4xl md:text-5xl font-bold mb-8 text-gray-900 relative`}
+        >
           Business Overview
-        </h2>
-        <p className="text-lg text-[#808080] mb-4">
-          Clubora is redefining how residential communities experience leisure,
-          lifestyle, and hospitality. With over a decade of hands-on expertise,
-          we go beyond basic clubhouse operations — delivering curated,
-          service-first experiences that turn shared spaces into true lifestyle
-          destinations.
-        </p>
-        <p className="text-lg text-[#808080]">
-          From boutique societies to large townships, Clubora brings consistent
-          quality and hospitality-driven excellence to every community we serve.
-        </p>
-      </section>
+        </motion.h2>
+        <div className="max-w-3xl mx-auto relative">
+          <motion.p
+            variants={fadeIn}
+            className="text-lg text-gray-600 mb-6 leading-relaxed"
+          >
+            Clubora is redefining how residential communities experience
+            leisure, lifestyle, and hospitality. With over a decade of hands-on
+            expertise, we go beyond basic clubhouse operations — delivering
+            curated, service-first experiences that turn shared spaces into true
+            lifestyle destinations.
+          </motion.p>
+          <motion.p
+            variants={fadeIn}
+            className="text-lg text-gray-600 leading-relaxed"
+          >
+            From boutique societies to large townships, Clubora brings
+            consistent quality and hospitality-driven excellence to every
+            community we serve.
+          </motion.p>
+        </div>
+      </motion.section>
 
-      {/* What We Do Section */}
-      <section className="max-w-3xl mx-auto py-12 text-center">
-        <h2 className={`${playfair.className} text-4xl font-bold mb-4`}>
+      {/* What We Do Section with Image Grid */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="max-w-6xl mx-auto py-20 px-4 text-center bg-gray-50"
+      >
+        <motion.h2
+          variants={fadeIn}
+          className={`${playfair.className} text-4xl md:text-5xl font-bold mb-8 text-gray-900`}
+        >
           What We Do
-        </h2>
-        <p className="text-lg text-[#808080] mb-4">
+        </motion.h2>
+        <motion.p
+          variants={fadeIn}
+          className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto"
+        >
           We offer comprehensive clubhouse management with an unwavering focus
           on service, engagement, and operational finesse.
-        </p>
-        <h3 className="text-2xl font-semibold mb-2">
-          Our Core Services Include:
-        </h3>
-        <ul className="list-disc list-inside text-[#808080] space-y-2 pl-4 text-left inline-block">
-          <li>Clubhouse operations and management</li>
-          <li>Hospitality-trained staffing & concierge services</li>
-          <li>Resident engagement programs and community events</li>
-          <li>Gym, spa, pool & recreation area operations</li>
-          <li>Premium housekeeping & facility upkeep</li>
-          <li>Lifestyle curation and personalized resident experiences</li>
-        </ul>
-      </section>
+        </motion.p>
 
-      {/* Mission & Vision Section */}
-      <section className="max-w-4xl mx-auto py-12 px-4">
-        <div className="flex flex-col md:flex-row gap-10">
-          <div className="flex-1 mb-8 md:mb-0 text-center md:text-left">
-            <h3 className={`${playfair.className} text-3xl font-bold mb-2`}>
-              Our Mission
-            </h3>
-            <p className="text-[#808080]">
-              To elevate everyday living by transforming clubhouses into
-              vibrant, hospitality-led spaces that bring comfort, connection,
-              and community.
-            </p>
-          </div>
-          <div className="flex-1 text-center md:text-left">
-            <h3 className={`${playfair.className} text-3xl font-bold mb-2`}>
-              Our Vision
-            </h3>
-            <p className="text-[#808080]">
-              To become the most trusted name in luxury clubhouse management —
-              known for excellence, innovation, and consistently exceptional
-              service.
-            </p>
+        {/* Image Grid */}
+        <motion.div
+          variants={staggerContainer}
+          className="grid md:grid-cols-2 gap-8 mb-12"
+        >
+          {[
+            "https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&fit=crop&w=800&q=80",
+          ].map((image, index) => (
+            <motion.div
+              key={index}
+              variants={imageVariants}
+              className="relative h-80 rounded-xl overflow-hidden shadow-xl"
+            >
+              <Image
+                src={image}
+                alt="Service showcase"
+                fill
+                className="object-cover transition-transform duration-500 hover:scale-110"
+              />
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.h3
+          variants={fadeIn}
+          className="text-2xl font-semibold mb-6 text-gray-800"
+        >
+          Our Core Services Include:
+        </motion.h3>
+        <motion.ul
+          variants={staggerContainer}
+          className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto text-left"
+        >
+          {[
+            "Clubhouse operations and management",
+            "Hospitality-trained staffing & concierge services",
+            "Resident engagement programs and community events",
+            "Gym, spa, pool & recreation area operations",
+            "Premium housekeeping & facility upkeep",
+            "Lifestyle curation and personalized resident experiences",
+          ].map((service, index) => (
+            <motion.li
+              key={index}
+              variants={fadeIn}
+              className="flex items-center text-gray-600 bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+            >
+              <svg
+                className="w-5 h-5 text-yellow-500 mr-2"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              {service}
+            </motion.li>
+          ))}
+        </motion.ul>
+      </motion.section>
+
+      {/* Mission & Vision Section with Background */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="relative py-20 bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d]"
+      >
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=1920&q=80"
+            alt="Luxury pattern"
+            fill
+            className="object-cover opacity-10"
+          />
+        </div>
+        <div className="max-w-6xl mx-auto px-4 relative">
+          <div className="grid md:grid-cols-2 gap-12">
+            <motion.div
+              variants={fadeIn}
+              className="bg-white/10 backdrop-blur-sm p-8 rounded-lg shadow-xl border border-white/20"
+            >
+              <h3
+                className={`${playfair.className} text-3xl font-bold mb-4 text-white`}
+              >
+                Our Mission
+              </h3>
+              <p className="text-gray-200 leading-relaxed">
+                To elevate everyday living by transforming clubhouses into
+                vibrant, hospitality-led spaces that bring comfort, connection,
+                and community.
+              </p>
+            </motion.div>
+            <motion.div
+              variants={fadeIn}
+              className="bg-white/10 backdrop-blur-sm p-8 rounded-lg shadow-xl border border-white/20"
+            >
+              <h3
+                className={`${playfair.className} text-3xl font-bold mb-4 text-white`}
+              >
+                Our Vision
+              </h3>
+              <p className="text-gray-200 leading-relaxed">
+                To become the most trusted name in luxury clubhouse management —
+                known for excellence, innovation, and consistently exceptional
+                service.
+              </p>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Why Clubora Section */}
-      <section className="max-w-3xl mx-auto py-12 text-center">
-        <h2 className={`${playfair.className} text-4xl font-bold mb-4`}>
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="max-w-6xl mx-auto py-20 px-4 text-center bg-gray-50"
+      >
+        <motion.h2
+          variants={fadeIn}
+          className={`${playfair.className} text-4xl md:text-5xl font-bold mb-8 text-gray-900`}
+        >
           Why Clubora?
-        </h2>
-        <p className="text-lg text-[#808080] mb-4">
+        </motion.h2>
+        <motion.p
+          variants={fadeIn}
+          className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto"
+        >
           While traditional facility management maintains, we elevate.
           <br />
           Where others deliver routine operations, we deliver thoughtful
           service, meaningful engagement, and a luxury-first mindset.
-        </p>
-        <h3 className="text-2xl font-semibold mb-2">We bring:</h3>
-        <ul className="list-disc list-inside text-[#808080] space-y-2 pl-4 text-left inline-block">
-          <li>A hospitality-first approach to modern community living</li>
-          <li>
-            Tailored solutions for mid to high-end residential communities
-          </li>
-          <li>A professional, trained team focused on resident experience</li>
-          <li>Proven systems and service standards honed over 10+ years</li>
-        </ul>
-      </section>
+        </motion.p>
+        <motion.h3
+          variants={fadeIn}
+          className="text-2xl font-semibold mb-6 text-gray-800"
+        >
+          We bring:
+        </motion.h3>
+        <motion.ul
+          variants={staggerContainer}
+          className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto text-left"
+        >
+          {[
+            "A hospitality-first approach to modern community living",
+            "Tailored solutions for mid to high-end residential communities",
+            "A professional, trained team focused on resident experience",
+            "Proven systems and service standards honed over 10+ years",
+          ].map((item, index) => (
+            <motion.li
+              key={index}
+              variants={fadeIn}
+              className="flex items-center text-gray-600 bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+            >
+              <svg
+                className="w-5 h-5 text-yellow-500 mr-2"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              {item}
+            </motion.li>
+          ))}
+        </motion.ul>
+      </motion.section>
 
       {/* Our Services Section */}
-      <section className="bg-gradient-to-br from-[#18181b] to-[#3b3b3b] py-16">
-        <h2
-          className={`${playfair.className} text-4xl font-bold text-center mb-10`}
-        >
-          Our Services
-        </h2>
-        <div className="flex flex-wrap md:flex-nowrap justify-center gap-6 max-w-6xl mx-auto px-2">
-          {/* Service 1 */}
-          <div className="bg-white rounded-lg shadow p-8 w-64 flex flex-col items-center transition-transform duration-300 hover:scale-105 hover:shadow-2xl text-center">
-            <svg
-              width="40"
-              height="40"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="#eab308"
-              strokeWidth="1.5"
-              className="mb-2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3 10.5V8.75a.75.75 0 0 1 .41-.67l8-4a.75.75 0 0 1 .68 0l8 4a.75.75 0 0 1 .41.67v1.75M4.5 19.5h15M4.5 19.5V10.5m0 9V21m15-1.5V10.5m0 9V21M9 19.5v-5.25m6 5.25v-5.25"
-              />
-            </svg>
-            <h3 className="font-semibold mb-1 text-lg text-[#808080] text-center">
-              Clubhouse Management
-            </h3>
-          </div>
-          {/* Service 2 */}
-          <div className="bg-white rounded-lg shadow p-8 w-64 flex flex-col items-center transition-transform duration-300 hover:scale-105 hover:shadow-2xl text-center">
-            <svg
-              width="40"
-              height="40"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="#eab308"
-              strokeWidth="1.5"
-              className="mb-2"
-            >
-              <circle
-                cx="12"
-                cy="12"
-                r="8"
-                stroke="#eab308"
-                strokeWidth="1.5"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8 16h8M9 12h6M10 8h4"
-              />
-            </svg>
-            <h3 className="font-semibold mb-1 text-lg text-[#808080] text-center">
-              Hospitality Services
-            </h3>
-          </div>
-          {/* Service 3 */}
-          <div className="bg-white rounded-lg shadow p-8 w-64 flex flex-col items-center transition-transform duration-300 hover:scale-105 hover:shadow-2xl text-center">
-            <svg
-              width="40"
-              height="40"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="#eab308"
-              strokeWidth="1.5"
-              className="mb-2"
-            >
-              <rect
-                x="4"
-                y="6"
-                width="16"
-                height="12"
-                rx="2"
-                stroke="#eab308"
-                strokeWidth="1.5"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8 10h8M8 14h8"
-              />
-            </svg>
-            <h3 className="font-semibold mb-1 text-lg text-[#808080] text-center">
-              Event Coordination
-            </h3>
-          </div>
-          {/* Service 4 */}
-          <div className="bg-white rounded-lg shadow p-8 w-64 flex flex-col items-center transition-transform duration-300 hover:scale-105 hover:shadow-2xl text-center">
-            <svg
-              width="40"
-              height="40"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="#eab308"
-              strokeWidth="1.5"
-              className="mb-2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 6v6l4 2"
-              />
-              <circle
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="#eab308"
-                strokeWidth="1.5"
-              />
-            </svg>
-            <h3 className="font-semibold mb-1 text-lg text-[#808080] text-center">
-              Maintenance & Support
-            </h3>
-          </div>
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] py-20"
+      >
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.h2
+            variants={fadeIn}
+            className={`${playfair.className} text-4xl md:text-5xl font-bold text-center mb-12 text-white`}
+          >
+            Our Services
+          </motion.h2>
+          <motion.div
+            variants={staggerContainer}
+            className="grid md:grid-cols-4 gap-8"
+          >
+            {[
+              {
+                title: "Clubhouse Management",
+                icon: "M3 10.5V8.75a.75.75 0 0 1 .41-.67l8-4a.75.75 0 0 1 .68 0l8 4a.75.75 0 0 1 .41.67v1.75M4.5 19.5h15M4.5 19.5V10.5m0 9V21m15-1.5V10.5m0 9V21M9 19.5v-5.25m6 5.25v-5.25",
+              },
+              {
+                title: "Hospitality Services",
+                icon: "M12 6v6l4 2M12 6v6l-4 2M12 6a8 8 0 100 16 8 8 0 000-16z",
+              },
+              {
+                title: "Event Coordination",
+                icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
+              },
+              {
+                title: "Maintenance & Support",
+                icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z",
+              },
+            ].map((service, index) => (
+              <motion.div
+                key={index}
+                variants={fadeIn}
+                whileHover={{ scale: 1.05 }}
+                className="bg-white/10 backdrop-blur-sm rounded-xl shadow-xl p-8 flex flex-col items-center transition-all duration-300 border border-white/20"
+              >
+                <svg
+                  width="48"
+                  height="48"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="#eab308"
+                  strokeWidth="1.5"
+                  className="mb-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d={service.icon}
+                  />
+                </svg>
+                <h3 className="font-semibold text-xl text-white text-center">
+                  {service.title}
+                </h3>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* Contact Section (two-column) */}
-      <section className="max-w-6xl mx-auto py-16 px-4 flex flex-col md:flex-row gap-8">
-        {/* Right: Contact Form Card */}
-        <div className="flex-1 flex justify-center items-start mx-auto">
-          <div className="w-full max-w-md bg-gradient-to-br from-[#18181b] to-[#3b3b3b] rounded-2xl shadow-2xl p-8 text-white">
+      {/* Contact Section */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="relative py-20 bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d]"
+      >
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&fit=crop&w=1920&q=80"
+            alt="Contact background"
+            fill
+            className="object-cover opacity-20"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/80 to-black/60" />
+        </div>
+
+        <div className="max-w-6xl mx-auto px-4 relative">
+          <motion.div variants={fadeIn} className="text-center mb-12">
             <h2
-              className={`${playfair.className} text-2xl font-bold mb-4 text-center text-[#808080]`}
+              className={`${playfair.className} text-4xl md:text-5xl font-bold mb-4 text-white`}
             >
               Get in Touch
             </h2>
-            <form
-              className="flex flex-col gap-4"
-              onSubmit={handleSubmit}
-              noValidate
-            >
-              <div className="relative">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Name"
-                  className="border border-gray-400 mb-2 rounded-[4px] px-3 py-2 bg-white/90 text-black w-full"
-                  value={form.name}
-                  onChange={handleChange}
-                />
-                <span
-                  className={`absolute left-0 top-[42px] text-red-400 text-xs mt-1 ${
-                    errors.name ? "" : "invisible"
-                  }`}
-                >
-                  {errors.name || " "}
-                </span>
-              </div>
-              <div className="relative">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  className="border border-gray-400 mb-2 rounded-[4px] px-3 py-2 bg-white/90 text-black w-full"
-                  value={form.email}
-                  onChange={handleChange}
-                />
-                <span
-                  className={`absolute left-0 top-[42px] text-red-400 text-xs mt-1 ${
-                    errors.email ? "" : "invisible"
-                  }`}
-                >
-                  {errors.email || " "}
-                </span>
-              </div>
-              <div className="relative">
-                <input
-                  type="text"
-                  name="mobile"
-                  placeholder="Mobile"
-                  className="border border-gray-400 mb-2 rounded-[4px] px-3 py-2 bg-white/90 text-black w-full"
-                  value={form.mobile}
-                  onChange={handleChange}
-                />
-                <span
-                  className={`absolute left-0 top-[42px] text-red-400 text-xs mt-1 ${
-                    errors.mobile ? "" : "invisible"
-                  }`}
-                >
-                  {errors.mobile || " "}
-                </span>
-              </div>
-              <textarea
-                name="message"
-                placeholder="Message"
-                className="border border-gray-400 rounded-[4px] px-3 py-2 bg-white/90 text-black min-h-[100px]"
-                value={form.message}
-                onChange={handleChange}
-              />
-              <button
-                type="submit"
-                className="bg-[#808080] text-white font-bold rounded px-4 py-2 mt-2 hover:bg-gray-700 transition"
+            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+              {`Have questions about our services? We're here to help. Send us a
+              message and we'll get back to you shortly.`}
+            </p>
+          </motion.div>
+
+          <motion.div variants={fadeIn} className="flex justify-center">
+            <div className="w-full max-w-md bg-white/10 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-white/20">
+              <form
+                className="flex flex-col gap-4"
+                onSubmit={handleSubmit}
+                noValidate
               >
-                Send
-              </button>
-              {submitted && (
-                <span className="text-green-600 text-center mt-2">
-                  Thank you! Your message has been submitted.
-                </span>
-              )}
-            </form>
-          </div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all duration-300"
+                    value={form.name}
+                    onChange={handleChange}
+                  />
+                  <span
+                    className={`absolute left-0 top-[42px] text-red-400 text-xs mt-1 ${
+                      errors.name ? "" : "invisible"
+                    }`}
+                  >
+                    {errors.name || " "}
+                  </span>
+                </div>
+                <div className="relative">
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all duration-300"
+                    value={form.email}
+                    onChange={handleChange}
+                  />
+                  <span
+                    className={`absolute left-0 top-[42px] text-red-400 text-xs mt-1 ${
+                      errors.email ? "" : "invisible"
+                    }`}
+                  >
+                    {errors.email || " "}
+                  </span>
+                </div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="mobile"
+                    placeholder="Mobile"
+                    className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all duration-300"
+                    value={form.mobile}
+                    onChange={handleChange}
+                  />
+                  <span
+                    className={`absolute left-0 top-[42px] text-red-400 text-xs mt-1 ${
+                      errors.mobile ? "" : "invisible"
+                    }`}
+                  >
+                    {errors.mobile || " "}
+                  </span>
+                </div>
+                <textarea
+                  name="message"
+                  placeholder="Message"
+                  className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 min-h-[120px] transition-all duration-300"
+                  value={form.message}
+                  onChange={handleChange}
+                />
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="submit"
+                  className="w-full bg-yellow-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-yellow-600 transition duration-300 shadow-lg hover:shadow-xl"
+                >
+                  Send Message
+                </motion.button>
+                {submitted && (
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-green-400 text-center mt-2"
+                  >
+                    Thank you! Your message has been submitted.
+                  </motion.span>
+                )}
+              </form>
+            </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }
