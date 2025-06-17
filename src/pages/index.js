@@ -356,7 +356,7 @@ export default function Home() {
       >
         {/* Background image */}
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80"
             alt="Background"
             className="w-full h-full object-cover"
@@ -377,7 +377,7 @@ export default function Home() {
         variants={staggerContainer}
         className="max-w-6xl mx-auto py-20 px-4 text-center bg-white relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-[url('/images/pattern.png')] opacity-5" />
+        <div className="absolute inset-0 opacity-5" />
         <motion.h2
           variants={fadeIn}
           className={`${playfair.className} text-sm md:text-5xl font-bold mb-8 text-gray-900 relative`}

@@ -1,6 +1,5 @@
 import React from "react";
 import CountUp from "react-countup";
-import "./StatsSection.css"; // Create this file for custom styles
 
 const stats = [
   { label: "Clients", value: 109 },
