@@ -1,4 +1,6 @@
 import nodemailer from "nodemailer";
+const emailTo = "rkamble8698@gmail.com";
+const appKey = "gnjjjwtweiratxaa";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -11,15 +13,15 @@ export default async function handler(req, res) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.NEXT_PUBLIC_EMAIL_TO,
-      pass: process.env.NEXT_PUBLIC_APP_KEY, // Use App Password
+      user: emailTo,
+      pass: appKey, // Use App Password
     },
   });
 
   try {
     // Email content
     const mailOptions = {
-      from: process.env.NEXT_PUBLIC_EMAIL_TO,
+      from: emailTo,
       to: email, // Your email where you want to receive messages
       subject: `New Contact Form Submission from ${name}`,
       html: `
