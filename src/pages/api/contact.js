@@ -44,6 +44,8 @@ export default async function handler(req, res) {
     // Create a transporter using SMTP
     const transporter = nodemailer.createTransport({
       service: "gmail",
+      host: "smtp.ethereal.email",
+      port: 587,
       auth: {
         user: emailTo,
         pass: appKey,
