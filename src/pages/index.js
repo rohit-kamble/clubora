@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import { Playfair_Display, Nunito } from "next/font/google";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -71,6 +75,36 @@ const carouselContent = [
     url: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1920&q=80",
     alt: "Outdoor Recreation",
   },
+];
+
+// Dynamically import StatsSection with SSR disabled
+const StatsSection = dynamic(() => import("./api/StatsSection"), {
+  ssr: false,
+});
+
+const logos = [
+  { src: "/logos/resort.png", alt: "The Resort Mumbai" },
+  { src: "/logos/company2.png", alt: "Company 2" },
+  { src: "/logos/company3.png", alt: "Company 3" },
+  // Add more logos as needed
+];
+
+const LogoCarousel = dynamic(() => import("./api/LogoCarousal"), {
+  ssr: false,
+});
+
+const testimonials = [
+  {
+    text: "The organization is known for its exceptional support and quality, with an experienced and cooperative team. The management is excellent, and the entire team is proactive in their approach. The organization maintains an excellent level of compliance, and their work culture is phenomenal.",
+    name: "Vrushali Kapse",
+    rating: 5,
+  },
+  {
+    text: "EVERGREEN SERVICES stands out for its proactive approach, which is evident from the top down to every member of their team. They have successfully managed multiple offices for us, and their observant and analytical approach has helped us significantly reduce our administration and purchase costs.",
+    name: "Kuldeep Jain",
+    rating: 5,
+  },
+  // Add more testimonials as needed
 ];
 
 export default function Home() {
@@ -160,14 +194,14 @@ export default function Home() {
       setSubmitError("");
 
       try {
-        const response = await fetch("/api/contact", {
+        const response = await fetch("http://localhost:3010/contact", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(form),
         });
-
+        console.log("response", response);
         const data = await response.json();
 
         if (response.ok) {
@@ -313,6 +347,27 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.5 }}
+        variants={staggerContainer}
+        className="relative"
+      >
+        {/* Background image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80"
+            alt="Background"
+            className="w-full h-full object-cover"
+          />
+          {/* Overlay */}
+        </div>
+
+        <div className=" px-4 relative z-10">
+          <StatsSection />
+        </div>
+      </motion.section>
 
       {/* Business Overview Section */}
       <motion.section
@@ -325,14 +380,14 @@ export default function Home() {
         <div className="absolute inset-0 bg-[url('/images/pattern.png')] opacity-5" />
         <motion.h2
           variants={fadeIn}
-          className={`${playfair.className} text-4xl md:text-5xl font-bold mb-8 text-gray-900 relative`}
+          className={`${playfair.className} text-sm md:text-5xl font-bold mb-8 text-gray-900 relative`}
         >
           Business Overview
         </motion.h2>
         <div className="max-w-3xl mx-auto relative">
           <motion.p
             variants={fadeIn}
-            className="text-lg text-gray-600 mb-6 leading-relaxed"
+            className="text-sm text-gray-600 mb-6 leading-relaxed"
           >
             Clubora is redefining how residential communities experience
             leisure, lifestyle, and hospitality. With over a decade of hands-on
@@ -349,6 +404,21 @@ export default function Home() {
             community we serve.
           </motion.p>
         </div>
+      </motion.section>
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="max-w-6xl mx-auto py-20 px-4 text-center bg-gray-50"
+      >
+        <motion.h2
+          variants={fadeIn}
+          className={`${playfair.className} text-sm md:text-5xl font-bold mb-8 text-gray-900 relative`}
+        >
+          Our Clients
+        </motion.h2>
+        <LogoCarousel />
       </motion.section>
 
       {/* What We Do Section with Image Grid */}
@@ -619,6 +689,59 @@ export default function Home() {
         </div>
       </motion.section>
 
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="relative py-20 bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d]"
+      >
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&fit=crop&w=1920&q=80"
+            alt="Happy Clients Background"
+            fill
+            className="object-cover opacity-20"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/80 to-black/60" />
+        </div>
+        <div className="max-w-4xl mx-auto px-4 relative">
+          <motion.h2
+            variants={fadeIn}
+            className="text-4xl md:text-5xl font-bold text-center mb-12 text-white"
+          >
+            Our Happy Clients!
+          </motion.h2>
+          <div className="flex flex-row gap-8">
+            {testimonials.map((t, idx) => (
+              <motion.div
+                key={idx}
+                variants={fadeIn}
+                className="bg-white rounded-lg shadow-xl p-8 text-left border border-white/20"
+              >
+                {/* Star Rating */}
+                <div className="flex items-center mb-2">
+                  {[...Array(t.rating)].map((_, i) => (
+                    <svg
+                      key={i}
+                      className="w-5 h-5 text-yellow-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.175c.969 0 1.371 1.24.588 1.81l-3.38 2.455a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.38-2.454a1 1 0 00-1.175 0l-3.38 2.454c-.784.57-1.838-.197-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.049 9.394c-.783-.57-.38-1.81.588-1.81h4.175a1 1 0 00.95-.69l1.286-3.967z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-4">{t.text}</p>
+                <p className="font-bold text-gray-900">{t.name}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+
       {/* Contact Section */}
       <motion.section
         initial="hidden"
@@ -766,6 +889,8 @@ export default function Home() {
           </motion.div>
         </div>
       </motion.section>
+
+      {/* Rating Card Section */}
     </div>
   );
 }
