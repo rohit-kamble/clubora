@@ -714,7 +714,7 @@ export default function Home() {
           >
             Our Happy Clients!
           </motion.h2>
-          <div className="flex flex-row gap-8">
+          <div className="flex flex-row gap-8 ">
             {testimonials.map((t, idx) => (
               <motion.div
                 key={idx}
