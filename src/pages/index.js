@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import Navigation from "../components/Navigation";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -134,7 +135,7 @@ export default function Home() {
     }, 4000); // Changed to 4 seconds for better viewing
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+  }, [isAutoPlaying, isVideoPlaying]); // Added isVideoPlaying dependency
 
   const handleDotClick = (index) => {
     setCurrentImageIndex(index);
@@ -145,6 +146,7 @@ export default function Home() {
   const handleVideoError = () => {
     console.error("Video failed to load");
     setVideoError(true);
+    setIsVideoPlaying(false);
   };
 
   const handleVideoLoad = () => {
@@ -158,6 +160,24 @@ export default function Home() {
   const handleVideoPause = () => {
     setIsVideoPlaying(false);
   };
+
+  // Video event listeners
+  useEffect(() => {
+    const video = document.querySelector("video");
+    if (video) {
+      video.addEventListener("play", handleVideoPlay);
+      video.addEventListener("pause", handleVideoPause);
+      video.addEventListener("loadeddata", handleVideoLoad);
+      video.addEventListener("error", handleVideoError);
+
+      return () => {
+        video.removeEventListener("play", handleVideoPlay);
+        video.removeEventListener("pause", handleVideoPause);
+        video.removeEventListener("loadeddata", handleVideoLoad);
+        video.removeEventListener("error", handleVideoError);
+      };
+    }
+  }, []);
 
   function validate(form) {
     const errs = {};
@@ -194,7 +214,7 @@ export default function Home() {
       setSubmitError("");
 
       try {
-        const response = await fetch("http://localhost:3010/contact", {
+        const response = await fetch("/api/contact", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -229,165 +249,168 @@ export default function Home() {
   }
 
   return (
-    <div className={`${nunito.className} min-h-screen w-full bg-white`}>
+    <div className={`${nunito.className} min-h-screen w-full bg-clubora-white`}>
+      {/* Navigation */}
+      <Navigation />
+
       {/* Hero Section with Carousel */}
-      <section className="relative w-full h-[90vh] flex items-center justify-center overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentImageIndex}
-            initial={{ opacity: 0.8 }}
-            animate={{ opacity: 0.9 }}
-            exit={{ opacity: 0.7 }}
-            transition={{ duration: 1 }}
-            className="absolute inset-0 w-full h-full"
+      <section
+        id="home"
+        className="relative w-full h-[100vh] flex items-center justify-center overflow-hidden"
+      >
+        {/* Background Video */}
+        <div className="absolute inset-0 w-full h-full z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+            poster="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80"
           >
+            <source
+              src="https://lotusdevelopers.com/template/front_assets/video/background-video.mp4"
+              type="video/mp4"
+            />
+            {/* Fallback image if video fails to load */}
             <Image
-              src={carouselContent[currentImageIndex].url}
-              alt={carouselContent[currentImageIndex].alt}
+              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80"
+              alt="Luxury Clubhouse Exterior"
               fill
+              sizes="100vw"
               className="object-cover"
               priority
             />
-          </motion.div>
-        </AnimatePresence>
-        <div className="absolute inset-0 bg-gradient-to-br from-black/80 to-black/60" />
-
-        {/* Carousel Navigation Dots */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
-          {carouselContent.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => handleDotClick(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                currentImageIndex === index
-                  ? "bg-white scale-125"
-                  : "bg-white/50 hover:bg-white/75"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
+          </video>
         </div>
 
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/80 z-20" />
+
+        {/* Carousel Navigation Dots - Only show if video is not playing */}
+
+        {/* Hero Content */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          className="relative z-10 flex flex-col items-center justify-center text-center w-full max-w-6xl mx-auto px-4"
+          className="relative z-30 flex flex-col items-center justify-center text-center w-full max-w-6xl mx-auto px-4"
         >
-          <motion.h1
-            variants={fadeIn}
-            className={`${playfair.className} text-7xl md:text-8xl font-bold mb-6 text-white drop-shadow-lg tracking-tight`}
-          >
-            CLUBORA
-          </motion.h1>
+          <motion.div variants={fadeIn} className="mb-6">
+            <motion.h1
+              variants={fadeIn}
+              className="text-4xl md:text-5xl font-bold text-center mb-0 text-clubora-white flex items-center gap-2"
+            >
+              <Image
+                src="/logo.png"
+                alt="Clubora Logo"
+                width={40}
+                height={40}
+                className="drop-shadow-lg"
+                style={{
+                  filter: "brightness(0) invert(1)",
+                }}
+                priority
+              />{" "}
+              Clubora
+            </motion.h1>
+          </motion.div>
           <motion.p
             variants={fadeIn}
-            className="text-xl md:text-2xl text-gray-200 max-w-2xl leading-relaxed"
+            className="text-xl md:text-2xl text-clubora-white max-w-2xl leading-relaxed"
           >
             Luxury Clubhouse Management
           </motion.p>
+
+          {/* Video Controls */}
+          {/* <motion.div
+            variants={fadeIn}
+            className="mt-8 flex items-center space-x-4"
+          >
+            <button
+              onClick={() => {
+                const video = document.querySelector("video");
+                if (video) {
+                  if (isVideoPlaying) {
+                    video.pause();
+                    setIsVideoPlaying(false);
+                  } else {
+                    video.play();
+                    setIsVideoPlaying(true);
+                  }
+                }
+              }}
+              className="flex items-center space-x-2 bg-clubora-white/20 backdrop-blur-sm text-clubora-white px-4 py-2 rounded-lg hover:bg-clubora-white/30 transition-all duration-300"
+            >
+              {isVideoPlaying ? (
+                <>
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span>Pause</span>
+                </>
+              ) : (
+                <>
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span>Play</span>
+                </>
+              )}
+            </button>
+
+            <button
+              onClick={() => {
+                const video = document.querySelector("video");
+                if (video) {
+                  video.pause();
+                  setIsVideoPlaying(false);
+                }
+              }}
+              className="bg-clubora-white/20 backdrop-blur-sm text-clubora-white px-4 py-2 rounded-lg hover:bg-clubora-white/30 transition-all duration-300"
+            >
+              Show Images
+            </button>
+          </motion.div> */}
         </motion.div>
       </section>
 
-      {/* Luxury Features Section */}
-      <section className="relative py-20 bg-gradient-to-br from-gray-50 to-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="grid md:grid-cols-3 gap-8"
-          >
-            {[
-              {
-                title: "Premium Amenities",
-                description:
-                  "State-of-the-art facilities designed for luxury living",
-                image:
-                  "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
-              },
-              {
-                title: "Exclusive Services",
-                description: "Personalized attention and white-glove service",
-                image:
-                  "https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&fit=crop&w=800&q=80",
-              },
-              {
-                title: "Elite Experience",
-                description: "Curated lifestyle programs and events",
-                image:
-                  "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=800&q=80",
-              },
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                variants={fadeIn}
-                className="relative group overflow-hidden rounded-xl shadow-xl"
-              >
-                <div className="relative h-80">
-                  <Image
-                    src={feature.image}
-                    alt={feature.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3
-                      className={`${playfair.className} text-2xl font-bold mb-2`}
-                    >
-                      {feature.title}
-                    </h3>
-                    <p className="text-gray-200">{feature.description}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+      {/* About Clubora Section */}
       <motion.section
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.5 }}
-        variants={staggerContainer}
-        className="relative"
-      >
-        {/* Background image */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80"
-            alt="Background"
-            className="w-full h-full object-cover"
-          />
-          {/* Overlay */}
-        </div>
-
-        <div className=" px-4 relative z-10">
-          <StatsSection />
-        </div>
-      </motion.section>
-
-      {/* Business Overview Section */}
-      <motion.section
+        id="about"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={staggerContainer}
-        className="max-w-6xl mx-auto py-20 px-4 text-center bg-white relative overflow-hidden"
+        className="max-w-6xl mx-auto py-20 px-4 text-center bg-clubora-white relative overflow-hidden"
       >
         <div className="absolute inset-0 opacity-5" />
         <motion.h2
           variants={fadeIn}
-          className={`${playfair.className} text-sm md:text-5xl font-bold mb-8 text-gray-900 relative`}
+          className="text-4xl md:text-5xl font-bold text-center mb-12 text-clubora-navy "
         >
-          Business Overview
+          About Clubora
         </motion.h2>
         <div className="max-w-3xl mx-auto relative">
           <motion.p
             variants={fadeIn}
-            className="text-sm text-gray-600 mb-6 leading-relaxed"
+            className="text-sm text-clubora-gray mb-6 leading-relaxed"
           >
             Clubora is redefining how residential communities experience
             leisure, lifestyle, and hospitality. With over a decade of hands-on
@@ -397,7 +420,7 @@ export default function Home() {
           </motion.p>
           <motion.p
             variants={fadeIn}
-            className="text-lg text-gray-600 leading-relaxed"
+            className="text-lg text-clubora-gray leading-relaxed"
           >
             From boutique societies to large townships, Clubora brings
             consistent quality and hospitality-driven excellence to every
@@ -405,39 +428,25 @@ export default function Home() {
           </motion.p>
         </div>
       </motion.section>
-      <motion.section
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={staggerContainer}
-        className="max-w-6xl mx-auto py-20 px-4 text-center bg-gray-50"
-      >
-        <motion.h2
-          variants={fadeIn}
-          className={`${playfair.className} text-sm md:text-5xl font-bold mb-8 text-gray-900 relative`}
-        >
-          Our Clients
-        </motion.h2>
-        <LogoCarousel />
-      </motion.section>
 
-      {/* What We Do Section with Image Grid */}
+      {/* Services We Offer Section */}
       <motion.section
+        id="services"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={staggerContainer}
-        className="max-w-6xl mx-auto py-20 px-4 text-center bg-gray-50"
+        className="max-w-6xl mx-auto py-20 px-4 text-center bg-clubora-sky/20"
       >
         <motion.h2
           variants={fadeIn}
-          className={`${playfair.className} text-4xl md:text-5xl font-bold mb-8 text-gray-900`}
+          className="text-4xl md:text-5xl font-bold text-center mb-12 text-clubora-navy "
         >
-          What We Do
+          Services We Offer
         </motion.h2>
         <motion.p
           variants={fadeIn}
-          className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto"
+          className="text-lg text-clubora-gray mb-8 max-w-3xl mx-auto"
         >
           We offer comprehensive clubhouse management with an unwavering focus
           on service, engagement, and operational finesse.
@@ -446,7 +455,7 @@ export default function Home() {
         {/* Image Grid */}
         <motion.div
           variants={staggerContainer}
-          className="grid md:grid-cols-2 gap-8 mb-12"
+          className="grid md:grid-cols-4 gap-8 mb-12"
         >
           {[
             "https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&fit=crop&w=800&q=80",
@@ -457,12 +466,13 @@ export default function Home() {
             <motion.div
               key={index}
               variants={imageVariants}
-              className="relative h-80 rounded-xl overflow-hidden shadow-xl"
+              className="relative h-50 rounded-xl overflow-hidden shadow-xl"
             >
               <Image
                 src={image}
                 alt="Service showcase"
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover transition-transform duration-500 hover:scale-110"
               />
             </motion.div>
@@ -471,7 +481,7 @@ export default function Home() {
 
         <motion.h3
           variants={fadeIn}
-          className="text-2xl font-semibold mb-6 text-gray-800"
+          className="text-2xl font-semibold mb-6 text-clubora-navy"
         >
           Our Core Services Include:
         </motion.h3>
@@ -490,10 +500,10 @@ export default function Home() {
             <motion.li
               key={index}
               variants={fadeIn}
-              className="flex items-center text-gray-600 bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+              className="flex items-center text-clubora-gray bg-clubora-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
             >
               <svg
-                className="w-5 h-5 text-yellow-500 mr-2"
+                className="w-5 h-5 text-clubora-gold mr-2"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -509,75 +519,46 @@ export default function Home() {
         </motion.ul>
       </motion.section>
 
-      {/* Mission & Vision Section with Background */}
+      {/* Featured Clubhouses / Clients Section */}
       <motion.section
+        id="featured"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={staggerContainer}
-        className="relative py-20 bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d]"
-      >
-        <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=1920&q=80"
-            alt="Luxury pattern"
-            fill
-            className="object-cover opacity-10"
-          />
-        </div>
-        <div className="max-w-6xl mx-auto px-4 relative">
-          <div className="grid md:grid-cols-2 gap-12">
-            <motion.div
-              variants={fadeIn}
-              className="bg-white/10 backdrop-blur-sm p-8 rounded-lg shadow-xl border border-white/20"
-            >
-              <h3
-                className={`${playfair.className} text-3xl font-bold mb-4 text-white`}
-              >
-                Our Mission
-              </h3>
-              <p className="text-gray-200 leading-relaxed">
-                To elevate everyday living by transforming clubhouses into
-                vibrant, hospitality-led spaces that bring comfort, connection,
-                and community.
-              </p>
-            </motion.div>
-            <motion.div
-              variants={fadeIn}
-              className="bg-white/10 backdrop-blur-sm p-8 rounded-lg shadow-xl border border-white/20"
-            >
-              <h3
-                className={`${playfair.className} text-3xl font-bold mb-4 text-white`}
-              >
-                Our Vision
-              </h3>
-              <p className="text-gray-200 leading-relaxed">
-                To become the most trusted name in luxury clubhouse management —
-                known for excellence, innovation, and consistently exceptional
-                service.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </motion.section>
-
-      {/* Why Clubora Section */}
-      <motion.section
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={staggerContainer}
-        className="max-w-6xl mx-auto py-20 px-4 text-center bg-gray-50"
+        className="max-w-6xl mx-auto py-20 px-4 text-center "
       >
         <motion.h2
           variants={fadeIn}
-          className={`${playfair.className} text-4xl md:text-5xl font-bold mb-8 text-gray-900`}
+          className="text-4xl md:text-5xl font-bold text-center mb-12 text-clubora-navy "
         >
-          Why Clubora?
+          Featured Clubhouses / Clients
+        </motion.h2>
+        <motion.h2
+          variants={fadeIn}
+          className="text-4xl md:text-5xl font-bold text-center mb-12 text-clubora-navy "
+        ></motion.h2>
+        <LogoCarousel />
+      </motion.section>
+
+      {/* Why Choose Clubora Section */}
+      <motion.section
+        id="why"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="text-center bg-clubora-white"
+      >
+        <motion.h2
+          variants={fadeIn}
+          className="text-4xl md:text-5xl font-bold text-center mb-12 text-clubora-navy "
+        >
+          Why Clubora
         </motion.h2>
         <motion.p
           variants={fadeIn}
-          className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto"
+          className="text-lg text-clubora-gray mb-8 max-w-3xl mx-auto"
         >
           While traditional facility management maintains, we elevate.
           <br />
@@ -586,7 +567,7 @@ export default function Home() {
         </motion.p>
         <motion.h3
           variants={fadeIn}
-          className="text-2xl font-semibold mb-6 text-gray-800"
+          className="text-2xl font-semibold mb-6 text-clubora-navy"
         >
           We bring:
         </motion.h3>
@@ -603,10 +584,10 @@ export default function Home() {
             <motion.li
               key={index}
               variants={fadeIn}
-              className="flex items-center text-gray-600 bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+              className="flex items-center text-clubora-gray bg-clubora-sky/20 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
             >
               <svg
-                className="w-5 h-5 text-yellow-500 mr-2"
+                className="w-5 h-5 text-clubora-gold mr-2"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -620,97 +601,34 @@ export default function Home() {
             </motion.li>
           ))}
         </motion.ul>
+        <StatsSection />
       </motion.section>
 
-      {/* Our Services Section */}
+      {/* Testimonials Section */}
       <motion.section
         initial="hidden"
         whileInView="visible"
+        id="testimonials"
         viewport={{ once: true }}
         variants={staggerContainer}
-        className="bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] py-20"
-      >
-        <div className="max-w-6xl mx-auto px-4">
-          <motion.h2
-            variants={fadeIn}
-            className={`${playfair.className} text-4xl md:text-5xl font-bold text-center mb-12 text-white`}
-          >
-            Our Services
-          </motion.h2>
-          <motion.div
-            variants={staggerContainer}
-            className="grid md:grid-cols-4 gap-8"
-          >
-            {[
-              {
-                title: "Clubhouse Management",
-                icon: "M3 10.5V8.75a.75.75 0 0 1 .41-.67l8-4a.75.75 0 0 1 .68 0l8 4a.75.75 0 0 1 .41.67v1.75M4.5 19.5h15M4.5 19.5V10.5m0 9V21m15-1.5V10.5m0 9V21M9 19.5v-5.25m6 5.25v-5.25",
-              },
-              {
-                title: "Hospitality Services",
-                icon: "M12 6v6l4 2M12 6v6l-4 2M12 6a8 8 0 100 16 8 8 0 000-16z",
-              },
-              {
-                title: "Event Coordination",
-                icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
-              },
-              {
-                title: "Maintenance & Support",
-                icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z",
-              },
-            ].map((service, index) => (
-              <motion.div
-                key={index}
-                variants={fadeIn}
-                whileHover={{ scale: 1.05 }}
-                className="bg-white/10 backdrop-blur-sm rounded-xl shadow-xl p-8 flex flex-col items-center transition-all duration-300 border border-white/20"
-              >
-                <svg
-                  width="48"
-                  height="48"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="#eab308"
-                  strokeWidth="1.5"
-                  className="mb-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d={service.icon}
-                  />
-                </svg>
-                <h3 className="font-semibold text-xl text-white text-center">
-                  {service.title}
-                </h3>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </motion.section>
-
-      <motion.section
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={staggerContainer}
-        className="relative py-20 bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d]"
+        className="relative py-20 bg-gradient-to-br from-clubora-navy to-clubora-blue"
       >
         {/* Background Image */}
-        <div className="absolute inset-0">
+        {/* <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&fit=crop&w=1920&q=80"
             alt="Happy Clients Background"
             fill
+            sizes="100vw"
             className="object-cover opacity-20"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/80 to-black/60" />
-        </div>
+          <div className="absolute inset-0 bg-gradient-to-br from-clubora-navy/80 to-clubora-navy/60" />
+        </div> */}
         <div className="max-w-4xl mx-auto px-4 relative">
           <motion.h2
             variants={fadeIn}
-            className="text-4xl md:text-5xl font-bold text-center mb-12 text-white"
+            className="text-4xl md:text-5xl font-bold text-center mb-12 text-clubora-navy "
           >
             Our Happy Clients!
           </motion.h2>
@@ -719,14 +637,14 @@ export default function Home() {
               <motion.div
                 key={idx}
                 variants={fadeIn}
-                className="bg-white rounded-lg shadow-xl p-8 text-left border border-white/20"
+                className="bg-clubora-white rounded-lg shadow-xl p-8 text-left border border-clubora-white/20"
               >
                 {/* Star Rating */}
                 <div className="flex items-center mb-2">
                   {[...Array(t.rating)].map((_, i) => (
                     <svg
                       key={i}
-                      className="w-5 h-5 text-yellow-400"
+                      className="w-5 h-5 text-clubora-gold"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -734,49 +652,90 @@ export default function Home() {
                     </svg>
                   ))}
                 </div>
-                <p className="text-gray-700 mb-4">{t.text}</p>
-                <p className="font-bold text-gray-900">{t.name}</p>
+                <p className="text-clubora-gray mb-4">{t.text}</p>
+                <p className="font-bold text-clubora-navy">{t.name}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </motion.section>
 
-      {/* Contact Section */}
+      {/* Get in Touch / Contact Section */}
       <motion.section
+        id="contact"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={staggerContainer}
-        className="relative py-20 bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d]"
+        className="relative py-20 bg-gradient-to-br from-clubora-navy to-clubora-blue"
       >
         {/* Background Image */}
-        <div className="absolute inset-0">
+        {/* <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&fit=crop&w=1920&q=80"
             alt="Contact background"
             fill
+            sizes="100vw"
             className="object-cover opacity-20"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/80 to-black/60" />
-        </div>
+          <div className="absolute inset-0 bg-gradient-to-br from-clubora-navy/80 to-clubora-navy/60" />
+        </div> */}
 
         <div className="max-w-6xl mx-auto px-4 relative">
           <motion.div variants={fadeIn} className="text-center mb-12">
-            <h2
-              className={`${playfair.className} text-4xl md:text-5xl font-bold mb-4 text-white`}
+            <motion.h2
+              variants={fadeIn}
+              className="text-4xl md:text-5xl font-bold text-center mb-12 text-clubora-navy "
             >
               Get in Touch
-            </h2>
-            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+            </motion.h2>
+            <p className="text-clubora-navy text-lg max-w-2xl mx-auto mb-8">
               {`Have questions about our services? We're here to help. Send us a
               message and we'll get back to you shortly.`}
             </p>
+
+            {/* Social Media Handles */}
+            <motion.div
+              variants={fadeIn}
+              className="flex justify-center items-center space-x-6 mb-8"
+            >
+              {/* LinkedIn */}
+              <a
+                href="https://linkedin.com/company/clubora"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-clubora-white/20 backdrop-blur-sm p-4 rounded-full hover:bg-clubora-white/30 transition-all duration-300 hover:scale-110"
+              >
+                <svg
+                  className="w-6 h-6 text-clubora-navy"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                </svg>
+              </a>
+
+              {/* WhatsApp */}
+              <a
+                href="https://wa.me/919876543210"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-clubora-white/20 backdrop-blur-sm p-4 rounded-full hover:bg-clubora-white/30 transition-all duration-300 hover:scale-110"
+              >
+                <svg
+                  className="w-6 h-6 text-clubora-navy"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
+                </svg>
+              </a>
+            </motion.div>
           </motion.div>
 
           <motion.div variants={fadeIn} className="flex justify-center">
-            <div className="w-full max-w-md bg-white/10 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-white/20">
+            <div className="w-full max-w-md bg-clubora-white/10 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-clubora-white/20">
               <form
                 className="flex flex-col gap-4"
                 onSubmit={handleSubmit}
@@ -787,13 +746,13 @@ export default function Home() {
                     type="text"
                     name="name"
                     placeholder="Name"
-                    className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all duration-300"
+                    className="w-full px-4 py-3 rounded-lg bg-clubora-white/90 text-clubora-navy placeholder-clubora-gray focus:outline-none focus:ring-2 focus:ring-clubora-gold transition-all duration-300"
                     value={form.name}
                     onChange={handleChange}
                     disabled={isSubmitting}
                   />
                   <span
-                    className={`absolute left-0 top-[42px] text-red-400 text-xs mt-1 ${
+                    className={`absolute left-0 top-[42px] text-clubora-reddish text-xs mt-1 ${
                       errors.name ? "" : "invisible"
                     }`}
                   >
@@ -805,13 +764,13 @@ export default function Home() {
                     type="email"
                     name="email"
                     placeholder="Email"
-                    className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all duration-300"
+                    className="w-full px-4 py-3 rounded-lg bg-clubora-white/90 text-clubora-navy placeholder-clubora-gray focus:outline-none focus:ring-2 focus:ring-clubora-gold transition-all duration-300"
                     value={form.email}
                     onChange={handleChange}
                     disabled={isSubmitting}
                   />
                   <span
-                    className={`absolute left-0 top-[42px] text-red-400 text-xs mt-1 ${
+                    className={`absolute left-0 top-[42px] text-clubora-reddish text-xs mt-1 ${
                       errors.email ? "" : "invisible"
                     }`}
                   >
@@ -823,13 +782,13 @@ export default function Home() {
                     type="text"
                     name="mobile"
                     placeholder="Mobile"
-                    className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all duration-300"
+                    className="w-full px-4 py-3 rounded-lg bg-clubora-white/90 text-clubora-navy placeholder-clubora-gray focus:outline-none focus:ring-2 focus:ring-clubora-gold transition-all duration-300"
                     value={form.mobile}
                     onChange={handleChange}
                     disabled={isSubmitting}
                   />
                   <span
-                    className={`absolute left-0 top-[42px] text-red-400 text-xs mt-1 ${
+                    className={`absolute left-0 top-[42px] text-clubora-reddish text-xs mt-1 ${
                       errors.mobile ? "" : "invisible"
                     }`}
                   >
@@ -840,13 +799,13 @@ export default function Home() {
                   <textarea
                     name="message"
                     placeholder="Message"
-                    className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 min-h-[120px] transition-all duration-300"
+                    className="w-full px-4 py-3 rounded-lg bg-clubora-white/90 text-clubora-navy placeholder-clubora-gray min-h-[120px] focus:outline-none focus:ring-2 focus:ring-clubora-gold transition-all duration-300"
                     value={form.message}
                     onChange={handleChange}
                     disabled={isSubmitting}
                   />
                   <span
-                    className={`absolute left-0 top-[42px] text-red-400 text-xs mt-1 ${
+                    className={`absolute left-0 top-[120px] text-clubora-reddish text-xs mt-1 ${
                       errors.message ? "" : "invisible"
                     }`}
                   >
@@ -858,10 +817,10 @@ export default function Home() {
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full bg-yellow-500 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-lg hover:shadow-xl ${
+                  className={`w-full bg-clubora-gold text-clubora-navy font-bold py-3 px-6 rounded-lg transition duration-300 shadow-lg hover:shadow-xl ${
                     isSubmitting
                       ? "opacity-75 cursor-not-allowed"
-                      : "hover:bg-yellow-600"
+                      : "hover:bg-clubora-gold/90"
                   }`}
                 >
                   {isSubmitting ? "Sending..." : "Send Message"}
@@ -870,7 +829,7 @@ export default function Home() {
                   <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="text-green-400 text-center mt-2"
+                    className="text-clubora-green text-center mt-2"
                   >
                     Thank you! Your message has been submitted.
                   </motion.span>
@@ -879,7 +838,7 @@ export default function Home() {
                   <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="text-red-400 text-center mt-2"
+                    className="text-clubora-reddish text-center mt-2"
                   >
                     {submitError}
                   </motion.span>
