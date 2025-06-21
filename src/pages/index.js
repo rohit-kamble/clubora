@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Navigation from "../components/Navigation";
+import logo from "../logo.png";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -302,7 +303,7 @@ export default function Home() {
               className="text-4xl md:text-5xl font-bold text-center mb-0 text-clubora-white flex items-center gap-2"
             >
               <Image
-                src="/logo.png"
+                src={logo}
                 alt="Clubora Logo"
                 width={40}
                 height={40}
