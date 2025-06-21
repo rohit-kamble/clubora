@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Playfair_Display, Lato, Montserrat } from "next/font/google";
 import Image from "next/image";
+import logo from "../logo.png";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -112,7 +113,7 @@ const Navigation = () => {
             onClick={() => scrollToSection("home")}
           >
             <Image
-              src="/logo.png"
+              src={logo}
               alt="Clubora Logo"
               width={40}
               height={40}
