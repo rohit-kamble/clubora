@@ -352,7 +352,7 @@ export default function Home() {
             className="w-full h-full object-cover"
             poster="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80"
           >
-            <source src="/banner.mp4" type="video/mp4" />
+            <source src="/banner-video.mp4" type="video/mp4" />
             {/* Fallback image if video fails to load */}
             <Image
               src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80"
