@@ -28,6 +28,7 @@ import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 import logo from "../logo.png";
 import logoTitle from "../logoTiltle.png";
+import emailjs from "@emailjs/browser";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -262,38 +263,71 @@ export default function Home() {
       setIsSubmitting(true);
       setSubmitError("");
 
-      try {
-        const response = await fetch("/api/contact", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(form),
-        });
-        console.log("response", response);
-        const data = await response.json();
+      var templateParams = {
+        name: form.name,
+        email: form.email,
+        mobile: form.mobile,
+        message: form.message,
+      };
 
-        if (response.ok) {
-          setSubmitted(true);
-          setTimeout(() => {
-            setSubmitted(false);
-          }, 2000);
-          setForm({
-            name: "",
-            email: "",
-            mobile: "",
-            message: "",
-          });
-        } else {
-          setSubmitError(
-            data.message || "Something went wrong. Please try again."
-          );
-        }
-      } catch (error) {
-        setSubmitError("Failed to send message. Please try again.");
-      } finally {
-        setIsSubmitting(false);
-      }
+      emailjs
+        .send("service_he9fy3j", "template_djs7kbp", templateParams, {
+          publicKey: "rggYqRHeOyqDJmT15",
+        })
+        .then(
+          function (response) {
+            console.log("SUCCESS!", response.status, response.text);
+            setSubmitted(true);
+            setIsSubmitting(false);
+            setTimeout(() => {
+              setSubmitted(false);
+            }, 2000);
+            setForm({
+              name: "",
+              email: "",
+              mobile: "",
+              message: "",
+            });
+          },
+          function (err) {
+            console.log("FAILED...", err);
+            setIsSubmitting(false);
+            setSubmitError("Failed to send message. Please try again.");
+          }
+        );
+
+      // try {
+      //   const response = await fetch("/api/contact", {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify(form),
+      //   });
+      //   console.log("response", response);
+      //   const data = await response.json();
+
+      //   if (response.ok) {
+      //     setSubmitted(true);
+      //     setTimeout(() => {
+      //       setSubmitted(false);
+      //     }, 2000);
+      //     setForm({
+      //       name: "",
+      //       email: "",
+      //       mobile: "",
+      //       message: "",
+      //     });
+      //   } else {
+      //     setSubmitError(
+      //       data.message || "Something went wrong. Please try again."
+      //     );
+      //   }
+      // } catch (error) {
+      //   setSubmitError("Failed to send message. Please try again.");
+      // } finally {
+      //   setIsSubmitting(false);
+      // }
     }
   }
 
