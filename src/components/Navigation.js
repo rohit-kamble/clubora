@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Playfair_Display, Lato, Montserrat, Nunito } from "next/font/google";
+import { Playfair_Display, Lato, Montserrat, Raleway } from "next/font/google";
 import Image from "next/image";
 import logo from "../logo.png";
 import logoTitle from "../logoTiltle.png";
 
-const nunito = Nunito({
+const ralewayFont = Raleway({
   subsets: ["latin"],
   weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-nunito",
+  variable: "--font-Raleway",
 });
 
 const playfair = Playfair_Display({
@@ -24,12 +24,12 @@ const Navigation = ({ forceScrolled = false }) => {
   const [isFirstSectionCompleted, setIsFirstSectionCompleted] = useState(false);
 
   const navItems = [
-    { id: "home", label: "Home", href: "#home" },
-    { id: "about", label: "About", href: "#about" },
-    { id: "services", label: "Services", href: "#services" },
+    { id: "home", label: "Home", href: "home" },
+    { id: "about", label: "About", href: "about" },
+    { id: "services", label: "Services", href: "services" },
     // { id: "featured", label: "Featured", href: "#featured" },
     // { id: "testimonials", label: "Testimonials", href: "#testimonials" },
-    { id: "contact", label: "Contact", href: "#contact" },
+    { id: "contact", label: "Contact", href: "contact" },
   ];
 
   // Handle scroll events
@@ -98,7 +98,7 @@ const Navigation = ({ forceScrolled = false }) => {
 
     // Add a small delay to ensure menu closes before scrolling
     setTimeout(() => {
-      window.location.href = `/#${sectionId}`;
+      window.location.href = `#${sectionId}`;
     }, 100);
     // } else {
     //   console.warn(`Section with id "${sectionId}" not found`);
@@ -127,7 +127,7 @@ const Navigation = ({ forceScrolled = false }) => {
           : "bg-transparent"
       }`}
     >
-      <div className={`max-w-7xl mx-auto py-4 ${!isScrolled ? "mt-5" : ""}`}>
+      <div className={`max-w-7xl mx-auto py-4 `}>
         <div className="flex items-center justify-between h-10 md:h-12">
           {/* Logo */}
           <motion.div
@@ -162,7 +162,7 @@ const Navigation = ({ forceScrolled = false }) => {
                 alt="Clubora Logo"
                 width={56}
                 height={56}
-                className="drop-shadow-lg"
+                className="drop-shadow-lg relative top-[20px]"
                 style={{
                   filter: "brightness(0) invert(1)",
                 }}
@@ -180,7 +180,7 @@ const Navigation = ({ forceScrolled = false }) => {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection(item.id)}
                 className={`${
-                  nunito.className
+                  ralewayFont.className
                 } relative px-3 py-2 text-sm font-medium transition-all duration-300 ${
                   activeSection === item.id
                     ? isFirstSectionCompleted
@@ -285,7 +285,7 @@ const Navigation = ({ forceScrolled = false }) => {
                     whileTap={{ scale: 0.95 }}
                     onClick={() => scrollToSection(item.id)}
                     className={`${
-                      nunito.className
+                      ralewayFont.className
                     } w-full text-left px-4 py-3 rounded-lg transition-all duration-300 font-medium ${
                       activeSection === item.id
                         ? isFirstSectionCompleted

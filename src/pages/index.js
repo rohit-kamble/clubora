@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Playfair_Display, Nunito } from "next/font/google";
+import { Playfair_Display, Raleway } from "next/font/google";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -33,7 +33,7 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["700", "900"],
 });
-const nunito = Nunito({
+const ralewayFont = Raleway({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
@@ -331,7 +331,9 @@ export default function Home() {
   };
 
   return (
-    <div className={`${nunito.className} min-h-screen w-full bg-clubora-white`}>
+    <div
+      className={`${ralewayFont.className} min-h-screen w-full bg-clubora-white`}
+    >
       {/* Navigation */}
       <Navigation />
 

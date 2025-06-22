@@ -23,7 +23,7 @@ module.exports = {
       fontFamily: {
         headline: ["'Playfair Display'", "serif"],
         body: ["'Lato'", "'Open Sans'", "sans-serif"],
-        button: ["Nunito, Nunito Fallback", "sans-serif"],
+        button: ["Raleway, Raleway Fallback", "sans-serif"],
       },
       boxShadow: {
         card: "0 4px 12px rgba(0, 0, 0, 0.1)",

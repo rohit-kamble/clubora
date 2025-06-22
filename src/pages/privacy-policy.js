@@ -1,12 +1,20 @@
 import React from "react";
-import Navigation from "../components/Navigation";
-import Footer from "../components/Footer";
+import Link from "next/link";
+import { FaArrowLeft } from "react-icons/fa";
 
 const PrivacyPolicyPage = () => {
   return (
-    <div className="bg-clubora-white min-h-screen">
-      <Navigation forceScrolled={true} />
-      <main className="py-24 pt-40 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="bg-gray-50 min-h-screen py-12 sm:py-20">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 text-left">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-clubora-gold hover:text-clubora-navy transition-colors duration-300 font-semibold group"
+          >
+            <FaArrowLeft className="transform transition-transform duration-300 group-hover:-translate-x-1" />
+            <span>Back to Home</span>
+          </Link>
+        </div>
         <div className="bg-white shadow-xl rounded-2xl p-8 md:p-12">
           <h1 className="text-4xl md:text-5xl font-bold text-clubora-navy mb-8 text-center">
             Privacy Policy
@@ -128,7 +136,6 @@ const PrivacyPolicyPage = () => {
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   );
 };
