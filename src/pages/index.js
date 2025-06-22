@@ -277,7 +277,7 @@ export default function Home() {
           setSubmitted(true);
           setTimeout(() => {
             setSubmitted(false);
-          }, 1000);
+          }, 2000);
           setForm({
             name: "",
             email: "",
@@ -953,7 +953,7 @@ export default function Home() {
                   <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="text-clubora-green text-center mt-2"
+                    className="text-[#4caf50] text-center mt-2"
                   >
                     Thank you! Your message has been submitted.
                   </motion.span>
