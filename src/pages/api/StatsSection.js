@@ -3,9 +3,9 @@ import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 
 const stats = [
-  { label: "Clients", value: 109 },
-  { label: "Year's Of Experience", value: 17 },
-  { label: "Skilled Staff", value: 2015 },
+  { label: "Communities Transformed", value: 30 },
+  { label: "Trained Staff", value: 500 },
+  { label: "Years of Clubhouse Expertise", value: 5 },
 ];
 
 export default function StatsSection() {
@@ -26,10 +26,11 @@ export default function StatsSection() {
       <div className="absolute inset-0 bg-black/60" />
       <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
         <p className="text-3xl font-bold text-clubora-white">
-          17 Years of Expertise in Facility Management
+          Backed by Experience. Driven by Excellence.
         </p>
         <p className="text-xl text-clubora-white mt-2 mb-12">
-          Trust Our Experience for Your Operations
+          We bring the structure of hospitality and the heart of community
+          living to every clubhouse we manage.
         </p>
         <div className="grid md:grid-cols-3 gap-8">
           {stats.map((stat, idx) => (

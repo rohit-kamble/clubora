@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Navigation from "../components/Navigation";
 import logo from "../logo.png";
-
+import logoTitle from "../logoTiltle.png";
 const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["700", "900"],
@@ -298,7 +298,7 @@ export default function Home() {
           className="relative z-30 flex flex-col items-center justify-center text-center w-full max-w-6xl mx-auto px-4"
         >
           <motion.div variants={fadeIn} className="mb-6">
-            <motion.h1
+            {/* <motion.h1
               variants={fadeIn}
               className="text-4xl md:text-5xl font-bold text-center mb-0 text-clubora-white flex items-center gap-2"
             >
@@ -314,14 +314,19 @@ export default function Home() {
                 priority
               />{" "}
               Clubora
-            </motion.h1>
+            </motion.h1> */}
+            <Image
+              src={logoTitle}
+              alt="Clubora Logo"
+              width={300}
+              // height={40}
+              className="drop-shadow-lg"
+              style={{
+                filter: "brightness(0) invert(1)",
+              }}
+              priority
+            />{" "}
           </motion.div>
-          <motion.p
-            variants={fadeIn}
-            className="text-xl md:text-2xl text-clubora-white max-w-2xl leading-relaxed"
-          >
-            Luxury Clubhouse Management
-          </motion.p>
 
           {/* Video Controls */}
           {/* <motion.div
@@ -399,35 +404,48 @@ export default function Home() {
         whileInView="visible"
         viewport={{ once: true }}
         variants={staggerContainer}
-        className="max-w-6xl mx-auto py-20 px-4 text-center bg-clubora-white relative overflow-hidden"
+        className=" mx-auto py-20 text-center bg-clubora-white relative overflow-hidden"
       >
         <div className="absolute inset-0 opacity-5" />
         <motion.h2
           variants={fadeIn}
-          className="text-4xl md:text-5xl font-bold text-center mb-12 text-clubora-navy "
+          className="text-4xl md:text-5xl font-bold text-center mb-12 text-clubora-navy uppercase"
         >
-          About Clubora
+          Clubora
         </motion.h2>
         <div className="max-w-3xl mx-auto relative">
           <motion.p
             variants={fadeIn}
-            className="text-sm text-clubora-gray mb-6 leading-relaxed"
+            className="text-lg text-clubora-gray leading-relaxed"
           >
-            Clubora is redefining how residential communities experience
-            leisure, lifestyle, and hospitality. With over a decade of hands-on
-            expertise, we go beyond basic clubhouse operations — delivering
-            curated, service-first experiences that turn shared spaces into true
-            lifestyle destinations.
+            Clubora is a premium clubhouse management company redefining how
+            residents experience community living. We bring the finesse of
+            luxury hospitality into residential clubhouses—offering residents a
+            seamless blend of service, lifestyle, and comfort typically found
+            only in five-star hotels.
           </motion.p>
           <motion.p
             variants={fadeIn}
             className="text-lg text-clubora-gray leading-relaxed"
           >
-            From boutique societies to large townships, Clubora brings
-            consistent quality and hospitality-driven excellence to every
-            community we serve.
+            Our mission is to transform ordinary common areas into vibrant,
+            well-managed lifestyle hubs where every interaction feels curated,
+            every experience feels personal, and every detail reflects a higher
+            standard of living.
+          </motion.p>
+          <motion.p
+            variants={fadeIn}
+            className="text-lg text-clubora-gray leading-relaxed"
+          >
+            Backed by years of hands-on experience in hospitality and
+            residential operations, Clubora was created to meet the growing
+            demand for professionally managed, lifestyle-driven community
+            spaces.
+            <br />
+            {`At Clubora, we don't just manage spaces—we elevate lifestyles.`}
           </motion.p>
         </div>
+        <StatsSection />
       </motion.section>
 
       {/* Services We Offer Section */}
@@ -437,87 +455,187 @@ export default function Home() {
         whileInView="visible"
         viewport={{ once: true }}
         variants={staggerContainer}
-        className="max-w-6xl mx-auto py-20 px-4 text-center bg-clubora-sky/20"
+        className="max-w-7xl mx-auto py-20 px-4 text-center bg-gradient-to-br from-clubora-sky/10 to-white"
       >
         <motion.h2
           variants={fadeIn}
-          className="text-4xl md:text-5xl font-bold text-center mb-12 text-clubora-navy "
+          className="text-4xl md:text-5xl font-bold text-center mb-12 text-clubora-navy uppercase"
         >
-          Services We Offer
+          Services
         </motion.h2>
         <motion.p
           variants={fadeIn}
-          className="text-lg text-clubora-gray mb-8 max-w-3xl mx-auto"
+          className="text-lg text-clubora-gray mb-16 max-w-4xl mx-auto leading-relaxed"
         >
-          We offer comprehensive clubhouse management with an unwavering focus
-          on service, engagement, and operational finesse.
+          At Clubora, we bring hotel-style service to everyday community living.
+          Our professionally trained staff ensures every amenity is not just
+          maintained, but elevated to create exceptional resident experiences.
         </motion.p>
 
-        {/* Image Grid */}
+        {/* Premium Services Grid */}
         <motion.div
           variants={staggerContainer}
-          className="grid md:grid-cols-4 gap-8 mb-12"
+          className="grid lg:grid-cols-4 gap-8 mb-16"
         >
-          {[
-            "https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&fit=crop&w=800&q=80",
-          ].map((image, index) => (
-            <motion.div
-              key={index}
-              variants={imageVariants}
-              className="relative h-50 rounded-xl overflow-hidden shadow-xl"
-            >
+          {/* Fitness Center Management */}
+          <motion.div
+            variants={fadeIn}
+            className="group relative bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+          >
+            <div className="relative h-64 overflow-hidden">
               <Image
-                src={image}
-                alt="Service showcase"
+                src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=800&q=80"
+                alt="Fitness Center Management"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover transition-transform duration-500 hover:scale-110"
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
               />
-            </motion.div>
-          ))}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 text-white">
+                {/* <div className="text-3xl mb-2">🏋️</div> */}
+                <h3 className="text-xl font-bold">Fitness Center Management</h3>
+              </div>
+            </div>
+            <div className="p-6">
+              <p className="text-clubora-gray leading-relaxed">
+                Clubora gym attendants ensure that equipment is monitored,
+                spaces are maintained, and residents feel safe, guided, and
+                motivated in their daily workouts.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Pool Oversight & Lifeguard Services */}
+          <motion.div
+            variants={fadeIn}
+            className="group relative bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+          >
+            <div className="relative h-64 overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80"
+                alt="Pool Oversight & Lifeguard Services"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 text-white">
+                {/* <div className="text-3xl mb-2">🏊</div> */}
+                <h3 className="text-xl font-bold">
+                  Pool Oversight & Lifeguard Services
+                </h3>
+              </div>
+            </div>
+            <div className="p-6">
+              <p className="text-clubora-gray leading-relaxed">
+                Professionally trained lifeguards not only ensure safety at the
+                pool but also maintain a calm, clean, and vacation-like
+                atmosphere for families and swimmers alike.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Indoor & Outdoor Game Zone Attendants */}
+          <motion.div
+            variants={fadeIn}
+            className="group relative bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+          >
+            <div className="relative h-64 overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=800&q=80"
+                alt="Indoor & Outdoor Game Zone Attendants"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 text-white">
+                {/* <div className="text-3xl mb-2">🕹️</div> */}
+                <h3 className="text-xl font-bold">
+                  Indoor & Outdoor Game Zone Attendants
+                </h3>
+              </div>
+            </div>
+            <div className="p-6">
+              <p className="text-clubora-gray leading-relaxed">
+                From board games to badminton, our game attendants manage
+                recreational areas, assist residents, and keep these spaces
+                active, friendly, and well-coordinated.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Kids&apos; Play Area & Crèche Supervision */}
+          <motion.div
+            variants={fadeIn}
+            className="group relative bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+          >
+            <div className="relative h-64 overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80"
+                alt="Kids' Play Area & Crèche Supervision"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 text-white">
+                {/* <div className="text-3xl mb-2">👶</div> */}
+                <h3 className="text-xl font-bold">
+                  Kids&apos; Play Area & Crèche Supervision
+                </h3>
+              </div>
+            </div>
+            <div className="p-6">
+              <p className="text-clubora-gray leading-relaxed">
+                Our attentive play area staff create safe, engaging environments
+                for younger residents—with structured activity time,
+                supervision, and gentle care.
+              </p>
+            </div>
+          </motion.div>
         </motion.div>
 
-        <motion.h3
+        {/* Additional Services */}
+        {/* <motion.div
           variants={fadeIn}
-          className="text-2xl font-semibold mb-6 text-clubora-navy"
+          className="bg-white rounded-2xl shadow-xl p-8 max-w-4xl mx-auto"
         >
-          Our Core Services Include:
-        </motion.h3>
-        <motion.ul
-          variants={staggerContainer}
-          className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto text-left"
-        >
-          {[
-            "Clubhouse operations and management",
-            "Hospitality-trained staffing & concierge services",
-            "Resident engagement programs and community events",
-            "Gym, spa, pool & recreation area operations",
-            "Premium housekeeping & facility upkeep",
-            "Lifestyle curation and personalized resident experiences",
-          ].map((service, index) => (
-            <motion.li
-              key={index}
-              variants={fadeIn}
-              className="flex items-center text-clubora-gray bg-clubora-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
-            >
-              <svg
-                className="w-5 h-5 text-clubora-gold mr-2"
-                fill="currentColor"
-                viewBox="0 0 20 20"
+          <h3 className="text-2xl font-semibold mb-6 text-clubora-navy">
+            Additional Premium Services
+          </h3>
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              "Clubhouse operations and management",
+              "Hospitality-trained staffing & concierge services",
+              "Resident engagement programs and community events",
+              "Premium housekeeping & facility upkeep",
+              "Lifestyle curation and personalized resident experiences",
+              "Spa & wellness center operations",
+            ].map((service, index) => (
+              <motion.div
+                key={index}
+                variants={fadeIn}
+                className="flex items-center text-clubora-gray bg-clubora-sky/10 p-4 rounded-xl hover:bg-clubora-sky/20 transition-all duration-300"
               >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              {service}
-            </motion.li>
-          ))}
-        </motion.ul>
+                <div className="w-8 h-8 bg-clubora-gold rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                  <svg
+                    className="w-4 h-4 text-white"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <span className="font-medium">{service}</span>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div> */}
       </motion.section>
 
       {/* Featured Clubhouses / Clients Section */}
@@ -531,9 +649,9 @@ export default function Home() {
       >
         <motion.h2
           variants={fadeIn}
-          className="text-4xl md:text-5xl font-bold text-center mb-12 text-clubora-navy "
+          className="text-4xl md:text-5xl font-bold text-center mb-12 text-clubora-navy uppercase"
         >
-          Featured Clubhouses / Clients
+          Our Amazing Clients
         </motion.h2>
         <motion.h2
           variants={fadeIn}
@@ -602,7 +720,6 @@ export default function Home() {
             </motion.li>
           ))}
         </motion.ul>
-        <StatsSection />
       </motion.section>
 
       {/* Testimonials Section */}

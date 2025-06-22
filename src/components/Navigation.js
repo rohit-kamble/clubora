@@ -1,50 +1,45 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Playfair_Display, Lato, Montserrat } from "next/font/google";
+import { Playfair_Display, Lato, Montserrat, Nunito } from "next/font/google";
 import Image from "next/image";
 import logo from "../logo.png";
+import logoTitle from "../logoTiltle.png";
 
-const playfair = Playfair_Display({
+const nunito = Nunito({
   subsets: ["latin"],
-  weight: ["400", "700", "900"],
-  variable: "--font-playfair",
-});
-
-const lato = Lato({
-  subsets: ["latin"],
-  weight: ["300", "400", "700"],
-  variable: "--font-lato",
-});
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-montserrat",
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-nunito",
 });
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isFirstSectionCompleted, setIsFirstSectionCompleted] = useState(false);
 
   const navItems = [
     { id: "home", label: "Home", href: "#home" },
     { id: "about", label: "About", href: "#about" },
     { id: "services", label: "Services", href: "#services" },
-    { id: "featured", label: "Featured", href: "#featured" },
-    { id: "testimonials", label: "Testimonials", href: "#testimonials" },
+    // { id: "featured", label: "Featured", href: "#featured" },
+    // { id: "testimonials", label: "Testimonials", href: "#testimonials" },
     { id: "contact", label: "Contact", href: "#contact" },
   ];
 
   // Handle scroll events
   useEffect(() => {
+    let scrollTimeout;
+
     const handleScroll = () => {
+      // Clear previous timeout
+      clearTimeout(scrollTimeout);
+
       // Check if page is scrolled
       setIsScrolled(window.scrollY > 50);
 
       // Determine active section based on scroll position
       const sections = navItems.map((item) => document.getElementById(item.id));
-      const scrollPosition = window.scrollY + 150; // Increased offset for mobile
+      const scrollPosition = window.scrollY + 150; // Consistent offset for section detection
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
@@ -53,13 +48,35 @@ const Navigation = () => {
           break;
         }
       }
+
+      // Check if first section (home) is completed - more reliable detection
+      const homeSection = document.getElementById("home");
+      if (homeSection) {
+        const homeSectionTop = homeSection.offsetTop;
+        const homeSectionHeight = homeSection.offsetHeight;
+        const currentScrollY = window.scrollY;
+
+        // Check if we've scrolled past 80% of the home section
+        const threshold = homeSectionTop + homeSectionHeight * 0.8;
+        const isHomeCompleted = currentScrollY > threshold;
+
+        setIsFirstSectionCompleted(isHomeCompleted);
+      }
+
+      // Set scroll completed state after scrolling stops
+      scrollTimeout = setTimeout(() => {
+        // Additional logic can be added here if needed
+      }, 150); // Wait 150ms after scroll stops
     };
 
     // Initial call to set correct active section
     handleScroll();
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(scrollTimeout);
+    };
   }, []);
 
   // Smooth scroll to section
@@ -96,33 +113,55 @@ const Navigation = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+        isFirstSectionCompleted
+          ? "bg-black/60 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] shadow-[0_4px_16px_rgba(255,255,255,0.1)] border-b border-white/20 before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/5 before:to-transparent before:pointer-events-none"
+          : isScrolled
           ? "bg-black/15 backdrop-blur-md shadow-card border-b border-clubora-gray/20"
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16 md:h-20">
+      <div className={`max-w-7xl mx-auto py-4`}>
+        <div className="flex items-center justify-between h-10 md:h-12">
           {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`${playfair.className} text-2xl md:text-3xl font-bold ${
-              isScrolled ? "text-clubora-navy" : "text-clubora-white"
+            className={`${nunito.className} text-2xl md:text-3xl font-bold ${
+              isFirstSectionCompleted
+                ? "text-white"
+                : isScrolled
+                ? "text-clubora-navy"
+                : "text-clubora-white"
             } cursor-pointer select-none`}
             onClick={() => scrollToSection("home")}
           >
-            <Image
-              src={logo}
-              alt="Clubora Logo"
-              width={40}
-              height={40}
-              className="drop-shadow-lg"
-              style={{
-                filter: "brightness(0) invert(1)",
-              }}
-              priority
-            />{" "}
+            {isScrolled || isFirstSectionCompleted ? (
+              <Image
+                src={logoTitle}
+                alt="Clubora Logo"
+                width={200}
+                height={200}
+                className="drop-shadow-lg"
+                style={{
+                  filter: isFirstSectionCompleted
+                    ? "brightness(0) invert(1)"
+                    : "brightness(0) invert(1)",
+                }}
+                priority
+              />
+            ) : (
+              <Image
+                src={logo}
+                alt="Clubora Logo"
+                width={56}
+                height={56}
+                className="drop-shadow-lg"
+                style={{
+                  filter: "brightness(0) invert(1)",
+                }}
+                priority
+              />
+            )}
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -134,12 +173,16 @@ const Navigation = () => {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection(item.id)}
                 className={`${
-                  montserrat.className
+                  nunito.className
                 } relative px-3 py-2 text-sm font-medium transition-all duration-300 ${
                   activeSection === item.id
-                    ? isScrolled
+                    ? isFirstSectionCompleted
+                      ? "text-white"
+                      : isScrolled
                       ? "text-clubora-gold"
                       : "text-clubora-gold"
+                    : isFirstSectionCompleted
+                    ? "text-white/90 hover:text-white"
                     : isScrolled
                     ? "text-clubora-white hover:text-clubora-gold"
                     : "text-clubora-white/90 hover:text-clubora-white"
@@ -149,7 +192,9 @@ const Navigation = () => {
                 {activeSection === item.id && (
                   <motion.div
                     layoutId="activeSection"
-                    className={`absolute bottom-0 left-0 right-0 h-0.5 bg-clubora-gold`}
+                    className={`absolute bottom-0 left-0 right-0 h-0.5 ${
+                      isFirstSectionCompleted ? "bg-white" : "bg-clubora-gold"
+                    }`}
                     initial={false}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
@@ -163,7 +208,9 @@ const Navigation = () => {
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(!isOpen)}
             className={`lg:hidden p-3 rounded-lg transition-colors duration-300 touch-manipulation ${
-              isScrolled
+              isFirstSectionCompleted
+                ? "text-white hover:bg-white/20 active:bg-white/30"
+                : isScrolled
                 ? "text-clubora-navy hover:bg-clubora-sky/20 active:bg-clubora-sky/30"
                 : "text-clubora-white hover:bg-clubora-white/10 active:bg-clubora-white/20"
             }`}
@@ -174,19 +221,31 @@ const Navigation = () => {
               <motion.span
                 animate={isOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
                 className={`w-6 h-0.5 ${
-                  isScrolled ? "bg-clubora-navy" : "bg-clubora-white"
+                  isFirstSectionCompleted
+                    ? "bg-white"
+                    : isScrolled
+                    ? "bg-clubora-navy"
+                    : "bg-clubora-white"
                 } transition-all duration-300`}
               />
               <motion.span
                 animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
                 className={`w-6 h-0.5 mt-1 ${
-                  isScrolled ? "bg-clubora-navy" : "bg-clubora-white"
+                  isFirstSectionCompleted
+                    ? "bg-white"
+                    : isScrolled
+                    ? "bg-clubora-navy"
+                    : "bg-clubora-white"
                 } transition-all duration-300`}
               />
               <motion.span
                 animate={isOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
                 className={`w-6 h-0.5 mt-1 ${
-                  isScrolled ? "bg-clubora-navy" : "bg-clubora-white"
+                  isFirstSectionCompleted
+                    ? "bg-white"
+                    : isScrolled
+                    ? "bg-clubora-navy"
+                    : "bg-clubora-white"
                 } transition-all duration-300`}
               />
             </div>
@@ -205,7 +264,9 @@ const Navigation = () => {
             >
               <div
                 className={`py-4 space-y-2 border-t ${
-                  isScrolled
+                  isFirstSectionCompleted
+                    ? "border-white/20 bg-black/40 backdrop-blur-2xl shadow-[0_4px_16px_rgba(0,0,0,0.3)] shadow-[0_2px_8px_rgba(255,255,255,0.05)] relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/3 before:to-transparent before:pointer-events-none"
+                    : isScrolled
                     ? "border-clubora-gray/20 bg-clubora-white/95 backdrop-blur-md"
                     : "border-clubora-white/20 bg-clubora-navy/20 backdrop-blur-md"
                 }`}
@@ -217,10 +278,14 @@ const Navigation = () => {
                     whileTap={{ scale: 0.95 }}
                     onClick={() => scrollToSection(item.id)}
                     className={`${
-                      montserrat.className
+                      nunito.className
                     } w-full text-left px-4 py-3 rounded-lg transition-all duration-300 font-medium ${
                       activeSection === item.id
-                        ? "bg-clubora-gold text-clubora-white shadow-card"
+                        ? isFirstSectionCompleted
+                          ? "bg-white text-black shadow-card"
+                          : "bg-clubora-gold text-clubora-white shadow-card"
+                        : isFirstSectionCompleted
+                        ? "text-white hover:bg-white/20"
                         : isScrolled
                         ? "text-clubora-navy hover:bg-clubora-sky/20"
                         : "text-clubora-white hover:bg-clubora-white/10"
