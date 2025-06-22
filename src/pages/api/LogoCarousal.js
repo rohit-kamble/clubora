@@ -1,5 +1,6 @@
 import Slider from "react-slick";
 import Image from "next/image";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const logos = [
   {
@@ -18,6 +19,20 @@ const logos = [
   // Add more logos as needed
 ];
 
+const CustomArrow = ({ className, style, onClick, direction }) => (
+  <button
+    className={`absolute top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300
+      ${direction === "left" ? "-left-4 md:-left-8" : "-right-4 md:-right-8"}`}
+    onClick={onClick}
+  >
+    {direction === "left" ? (
+      <FaChevronLeft className="w-5 h-5 text-clubora-navy" />
+    ) : (
+      <FaChevronRight className="w-5 h-5 text-clubora-navy" />
+    )}
+  </button>
+);
+
 export default function LogoCarousel() {
   const settings = {
     dots: false,
@@ -27,7 +42,9 @@ export default function LogoCarousel() {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
-    arrows: false,
+    arrows: true,
+    nextArrow: <CustomArrow direction="right" />,
+    prevArrow: <CustomArrow direction="left" />,
     responsive: [
       { breakpoint: 768, settings: { slidesToShow: 1 } },
       { breakpoint: 1024, settings: { slidesToShow: 2 } },
@@ -36,10 +53,14 @@ export default function LogoCarousel() {
 
   return (
     <div className="relative py-10 flex flex-col items-center justify-center overflow-hidden">
+      {/* <div className="flex justify-center items-center"> */}
       <div className="w-[90%]">
         <Slider {...settings}>
           {logos.map((logo, idx) => (
-            <div key={idx} className="flex justify-center items-center h-40">
+            <div
+              key={idx}
+              className="!flex justify-center items-center text-center"
+            >
               <Image
                 src={logo.src}
                 alt={logo.alt}
@@ -51,6 +72,7 @@ export default function LogoCarousel() {
           ))}
         </Slider>
       </div>
+      {/* </div> */}
     </div>
   );
 }
