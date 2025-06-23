@@ -35,7 +35,7 @@ const Footer = () => {
                     <a
                       href={`${
                         service.toLowerCase() === "privacy policy"
-                          ? "/privacy-policy"
+                          ? "https://clubora.in/privacy-policy.html"
                           : `/#${service.toLowerCase()}`
                       }`}
                       className="text-white/70 hover:text-clubora-gold transition-colors duration-300"
