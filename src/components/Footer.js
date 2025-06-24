@@ -15,10 +15,10 @@ const Footer = () => {
               alt="Clubora Logo"
               width={200}
               height={200}
-              className="drop-shadow-lg"
-              style={{
-                filter: "brightness(0) invert(1)",
-              }}
+              className="drop-shadow-lg relative top-[-22px]"
+              // style={{
+              //   filter: "brightness(0) invert(1)",
+              // }}
               priority
             />
           </div>

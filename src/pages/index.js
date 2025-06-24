@@ -29,6 +29,7 @@ import Footer from "../components/Footer";
 import logo from "../logo.png";
 import logoTitle from "../logoTiltle.png";
 import emailjs from "@emailjs/browser";
+import uniformedStaff from "../uniform.jpeg";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -271,8 +272,8 @@ export default function Home() {
       };
 
       emailjs
-        .send("service_he9fy3j", "template_djs7kbp", templateParams, {
-          publicKey: "rggYqRHeOyqDJmT15",
+        .send("service_l23oi5m", "template_h5dcxdm", templateParams, {
+          publicKey: "MyJrGLYk2-3kOWrwY",
         })
         .then(
           function (response) {
@@ -352,7 +353,7 @@ export default function Home() {
       },
     ],
     customPaging: (i) => (
-      <div className="w-2 h-2 rounded-full bg-clubora-gold/50 transition-all duration-300"></div>
+      <div className="w-2 h-2 rounded-full bg-burnt-orange/50 transition-all duration-300"></div>
     ),
     appendDots: (dots) => (
       <div>
@@ -435,7 +436,7 @@ export default function Home() {
             <Image
               src={logoTitle}
               alt="Clubora Logo"
-              width={300}
+              width={500}
               // height={40}
               className="drop-shadow-lg"
               style={{
@@ -584,14 +585,14 @@ export default function Home() {
           variants={fadeIn}
           className="text-xl text-clubora-gold font-semibold mb-8"
         >
-          Bringing Hotel-Style Service to Everyday Community Living
+          Delivering a Luxury Experience in Everyday Residential Life
         </motion.p>
         <motion.p
           variants={fadeIn}
           className="text-lg text-clubora-gray mb-16 max-w-4xl mx-auto leading-relaxed"
         >
           {`At Clubora, we believe a great clubhouse is not just about
-          amenities—it&apos;s about how they're brought to life. That's why our
+          amenities—it's about how they're brought to life. That's why our
           focus is on placing the right people, with the right training, in the
           right roles. Every service we offer is designed to create a warm,
           seamless, and enriching resident experience`}
@@ -635,6 +636,12 @@ export default function Home() {
               title: "Events, Workshops & Lifestyle Engagement",
               description:
                 "Clubora curates and delivers experiences—from cultural celebrations to weekend workshops—making the clubhouse a true social and creative hub for all age groups.",
+            },
+            {
+              icon: FaConciergeBell,
+              title: "Sports Academies & Coaching",
+              description:
+                "We bring certified coaches from leading sports academies to your clubhouse—offering expert-led training in badminton, tennis, football, swimming, and more for all age groups.",
             },
           ].map((service, index) => (
             <motion.div
@@ -689,7 +696,7 @@ export default function Home() {
           <div className="relative flex items-center justify-center p-8 md:p-12 text-white bg-black">
             <div className="absolute inset-0">
               <Image
-                src="https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?auto=format&fit=crop&w=1000&q=80"
+                src={uniformedStaff}
                 alt="Modern Cityscape"
                 layout="fill"
                 objectFit="cover"
@@ -711,22 +718,13 @@ export default function Home() {
               </motion.h2>
               <motion.h2
                 variants={fadeIn}
-                className="text-sm md:text-xl font-bold leading-tight mb-8"
+                className="text-sm md:text-xl font-bold leading-[1.5] mb-8"
               >
                 Hospitality Mindset. Lifestyle Execution. We bring hotel-style
                 service, curated programming, and professionally trained teams
                 to elevate the way residents live and connect within their
                 communities.
               </motion.h2>
-              {/* <motion.a
-                href="#contact"
-                variants={fadeIn}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-block bg-clubora-gold text-clubora-navy font-bold py-3 px-8 rounded-lg transition duration-300 shadow-lg hover:shadow-xl"
-              >
-                Get In Touch
-              </motion.a> */}
             </motion.div>
           </div>
 
@@ -736,7 +734,7 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerContainer}
-            className="bg-clubora-green flex items-center justify-center p-8 md:p-12 text-white"
+            className="bg-burnt-orange flex items-center justify-center p-8 md:p-12 text-white"
           >
             <div className="max-w-md">
               <motion.h3 variants={fadeIn} className="text-3xl font-bold mb-8">
@@ -832,7 +830,7 @@ export default function Home() {
                   <div key={idx} className="p-4">
                     <motion.div
                       variants={fadeIn}
-                      className="bg-clubora-white rounded-lg shadow-xl p-8 text-left border border-clubora-white/20 h-full flex flex-col justify-between min-h-[320px]"
+                      className="bg-clubora-white rounded-lg shadow-xl p-8 text-left h-full flex flex-col justify-between min-h-[320px]"
                     >
                       <p className="text-clubora-gray mb-6 italic text-lg leading-relaxed">
                         {`"${t.text}"`}
@@ -893,7 +891,7 @@ export default function Home() {
           </motion.div>
 
           <motion.div variants={fadeIn} className="flex justify-center">
-            <div className="w-full max-w-md bg-clubora-white/10 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-clubora-white/20">
+            <div className="w-full max-w-md bg-clubora-white/10 backdrop-blur-sm rounded-2xl shadow-2xl p-8 ">
               <form
                 className="flex flex-col gap-4"
                 onSubmit={handleSubmit}
@@ -975,10 +973,10 @@ export default function Home() {
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full bg-clubora-gold text-clubora-navy font-bold py-3 px-6 rounded-lg transition duration-300 shadow-lg hover:shadow-xl ${
+                  className={`w-full bg-burnt-orange text-clubora-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-lg hover:shadow-xl ${
                     isSubmitting
                       ? "opacity-75 cursor-not-allowed"
-                      : "hover:bg-clubora-gold/90"
+                      : "hover:bg-burnt-orange/90"
                   }`}
                 >
                   {isSubmitting ? "Sending..." : "Send Message"}

@@ -21,7 +21,6 @@ const Navigation = ({ forceScrolled = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isFirstSectionCompleted, setIsFirstSectionCompleted] = useState(false);
 
   const navItems = [
     { id: "home", label: "Home", href: "home" },
@@ -57,20 +56,6 @@ const Navigation = ({ forceScrolled = false }) => {
           setActiveSection(navItems[i].id);
           break;
         }
-      }
-
-      // Check if first section (home) is completed - more reliable detection
-      const homeSection = document.getElementById("home");
-      if (homeSection) {
-        const homeSectionTop = homeSection.offsetTop;
-        const homeSectionHeight = homeSection.offsetHeight;
-        const currentScrollY = window.scrollY;
-
-        // Check if we've scrolled past 80% of the home section
-        const threshold = homeSectionTop + homeSectionHeight * 0.8;
-        const isHomeCompleted = currentScrollY > threshold;
-
-        setIsFirstSectionCompleted(isHomeCompleted);
       }
 
       // Set scroll completed state after scrolling stops
@@ -120,10 +105,8 @@ const Navigation = ({ forceScrolled = false }) => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isFirstSectionCompleted
-          ? "bg-black/60 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] shadow-[0_4px_16px_rgba(255,255,255,0.1)] border-b border-white/20 before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/5 before:to-transparent before:pointer-events-none"
-          : isScrolled || forceScrolled
-          ? "bg-black/60 backdrop-blur-md shadow-card border-b border-clubora-gray/20"
+        isScrolled || forceScrolled
+          ? "bg-white/60 backdrop-blur-md shadow-card"
           : "bg-transparent"
       }`}
     >
@@ -134,41 +117,22 @@ const Navigation = ({ forceScrolled = false }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={`${playfair.className} text-2xl md:text-3xl font-bold ${
-              isFirstSectionCompleted
-                ? "text-white"
-                : isScrolled || forceScrolled
+              isScrolled || forceScrolled
                 ? "text-clubora-navy"
-                : "text-clubora-white"
+                : "text-clubora-burntOrange"
             } cursor-pointer select-none`}
             onClick={() => scrollToSection("home")}
           >
-            {isScrolled || isFirstSectionCompleted || forceScrolled ? (
+            {isScrolled || forceScrolled ? (
               <Image
                 src={logoTitle}
                 alt="Clubora Logo"
                 width={200}
                 height={200}
-                className="drop-shadow-lg"
-                style={{
-                  filter: isFirstSectionCompleted
-                    ? "brightness(0) invert(1)"
-                    : "brightness(0) invert(1)",
-                }}
+                className="drop-shadow-lg relative left-[-44px]"
                 priority
               />
-            ) : (
-              <Image
-                src={logo}
-                alt="Clubora Logo"
-                width={56}
-                height={56}
-                className="drop-shadow-lg relative top-[20px]"
-                style={{
-                  filter: "brightness(0) invert(1)",
-                }}
-                priority
-              />
-            )}
+            ) : null}
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -179,20 +143,16 @@ const Navigation = ({ forceScrolled = false }) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection(item.id)}
-                className={`${
+                className={` ${
                   ralewayFont.className
-                } relative px-3 py-2 text-sm font-medium transition-all duration-300 ${
+                } relative  px-3 py-2 text-sm font-medium transition-all duration-300 ${
                   activeSection === item.id
-                    ? isFirstSectionCompleted
-                      ? "text-white"
-                      : isScrolled || forceScrolled
-                      ? "text-clubora-gold"
-                      : "text-clubora-gold"
-                    : isFirstSectionCompleted
-                    ? "text-white/90 hover:text-white"
+                    ? isScrolled || forceScrolled
+                      ? "text-clubora-burntOrange"
+                      : "text-clubora-white"
                     : isScrolled || forceScrolled
-                    ? "text-clubora-white hover:text-clubora-gold"
-                    : "text-clubora-white/90 hover:text-clubora-white"
+                    ? "text-clubora-burntOrange hover:text-clubora-burntOrange"
+                    : "text-clubora-white hover:text-clubora-white"
                 }`}
               >
                 {item.label}
@@ -200,7 +160,9 @@ const Navigation = ({ forceScrolled = false }) => {
                   <motion.div
                     layoutId="activeSection"
                     className={`absolute bottom-0 left-0 right-0 h-0.5 ${
-                      isFirstSectionCompleted ? "bg-white" : "bg-clubora-gold"
+                      isScrolled || forceScrolled
+                        ? "bg-burnt-orange"
+                        : "bg-white"
                     }`}
                     initial={false}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -215,11 +177,9 @@ const Navigation = ({ forceScrolled = false }) => {
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(!isOpen)}
             className={`lg:hidden p-3 rounded-lg transition-colors duration-300 touch-manipulation ${
-              isFirstSectionCompleted
-                ? "text-white hover:bg-white/20 active:bg-white/30"
-                : isScrolled || forceScrolled
+              isScrolled || forceScrolled
                 ? "text-clubora-navy hover:bg-clubora-sky/20 active:bg-clubora-sky/30"
-                : "text-clubora-white hover:bg-clubora-white/10 active:bg-clubora-white/20"
+                : "text-clubora-burntOrange hover:bg-clubora-white/10 active:bg-clubora-white/20"
             }`}
             aria-label="Toggle menu"
             aria-expanded={isOpen}
@@ -228,9 +188,7 @@ const Navigation = ({ forceScrolled = false }) => {
               <motion.span
                 animate={isOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
                 className={`w-6 h-0.5 ${
-                  isFirstSectionCompleted
-                    ? "bg-white"
-                    : isScrolled || forceScrolled
+                  isScrolled || forceScrolled
                     ? "bg-clubora-navy"
                     : "bg-clubora-white"
                 } transition-all duration-300`}
@@ -238,9 +196,7 @@ const Navigation = ({ forceScrolled = false }) => {
               <motion.span
                 animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
                 className={`w-6 h-0.5 mt-1 ${
-                  isFirstSectionCompleted
-                    ? "bg-white"
-                    : isScrolled || forceScrolled
+                  isScrolled || forceScrolled
                     ? "bg-clubora-navy"
                     : "bg-clubora-white"
                 } transition-all duration-300`}
@@ -248,9 +204,7 @@ const Navigation = ({ forceScrolled = false }) => {
               <motion.span
                 animate={isOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
                 className={`w-6 h-0.5 mt-1 ${
-                  isFirstSectionCompleted
-                    ? "bg-white"
-                    : isScrolled || forceScrolled
+                  isScrolled || forceScrolled
                     ? "bg-clubora-navy"
                     : "bg-clubora-white"
                 } transition-all duration-300`}
@@ -271,9 +225,7 @@ const Navigation = ({ forceScrolled = false }) => {
             >
               <div
                 className={`py-4 space-y-2 border-t ${
-                  isFirstSectionCompleted
-                    ? "border-white/20 bg-black/40 backdrop-blur-2xl shadow-[0_4px_16px_rgba(0,0,0,0.3)] shadow-[0_2px_8px_rgba(255,255,255,0.05)] relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/3 before:to-transparent before:pointer-events-none"
-                    : isScrolled || forceScrolled
+                  isScrolled || forceScrolled
                     ? "border-clubora-gray/20 bg-clubora-white/95 backdrop-blur-md"
                     : "border-clubora-white/20 bg-clubora-navy/20 backdrop-blur-md"
                 }`}
@@ -288,14 +240,10 @@ const Navigation = ({ forceScrolled = false }) => {
                       ralewayFont.className
                     } w-full text-left px-4 py-3 rounded-lg transition-all duration-300 font-medium ${
                       activeSection === item.id
-                        ? isFirstSectionCompleted
-                          ? "bg-white text-black shadow-card"
-                          : "bg-clubora-gold text-clubora-white shadow-card"
-                        : isFirstSectionCompleted
-                        ? "text-white hover:bg-white/20"
+                        ? "bg-burnt-orange text-clubora-burntOrange shadow-card"
                         : isScrolled || forceScrolled
                         ? "text-clubora-navy hover:bg-clubora-sky/20"
-                        : "text-clubora-white hover:bg-clubora-white/10"
+                        : "text-clubora-burntOrange hover:bg-clubora-white/10"
                     }`}
                   >
                     {item.label}

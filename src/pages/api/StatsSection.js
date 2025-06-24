@@ -19,8 +19,7 @@ export default function StatsSection() {
       ref={ref}
       className="relative py-20 mt-20 bg-cover bg-center bg-fixed"
       style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80')",
+        backgroundImage: `url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?au')`,
       }}
     >
       <div className="absolute inset-0 bg-black/60" />
