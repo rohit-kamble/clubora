@@ -12,15 +12,24 @@ const HeroSection = () => (
     id="home"
     className="relative w-full h-[100vh] flex items-center justify-center overflow-hidden"
   >
+    {/* <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="absolute inset-0 w-full h-full object-cover z-10"
+      src={bannerVideo}
+      poster="/banner.png"
+    /> */}
     <video
       autoPlay
       loop
       muted
       playsInline
       className="absolute inset-0 w-full h-full object-cover z-10"
-      src="/banner.mp4"
-      poster="/banner.png"
-    />
+    >
+      <source src="/videos/banner.mp4" type="video/mp4" />
+    </video>
     {/* Dark overlay for better text readability */}
     <div className="absolute inset-0 bg-black/50 z-20" />
     {/* Hero Content */}
