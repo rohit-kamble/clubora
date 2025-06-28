@@ -18,7 +18,7 @@ const HeroSection = () => (
       muted
       playsInline
       className="absolute inset-0 w-full h-full object-cover z-10"
-      src="/banner-video.mp4"
+      src="/banner-video1.mp4"
       poster="/banner.png"
     />
     {/* Dark overlay for better text readability */}
