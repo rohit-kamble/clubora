@@ -66,6 +66,16 @@ const testimonialSliderSettings = {
   ),
 };
 
+const titleVariants = {
+  hidden: { opacity: 0, y: 32, scale: 0.98 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.7, type: "spring", stiffness: 80, delay: 0.1 },
+  },
+};
+
 const TestimonialsSection = () => (
   <motion.section
     initial="hidden"
@@ -73,12 +83,21 @@ const TestimonialsSection = () => (
     id="testimonials"
     viewport={{ once: true }}
     variants={staggerContainer}
-    className="relative py-20 bg-gradient-to-br from-clubora-navy to-clubora-blue"
+    className="relative py-20 bg-gradient-to-br from-clubora-navy to-clubora-blue text-center"
   >
     <div className=" mx-auto px-4 relative">
       <motion.h2
-        variants={fadeIn}
-        className="text-4xl md:text-5xl font-bold text-center mb-12 text-clubora-navy "
+        variants={titleVariants}
+        initial="hidden"
+        animate="visible"
+        className="text-5xl font-extrabold mb-10 inline-block bg-gradient-to-r from-burnt-orange via-clubora-gold to-clubora-navy bg-[length:200%_100%] bg-clip-text text-transparent relative"
+        style={{
+          animation: "shimmer 2.5s linear infinite",
+          backgroundImage:
+            "linear-gradient(90deg, #D35400 0%, #FFD580 40%, #0F2C3F 100%)",
+          backgroundSize: "200% 100%",
+          backgroundPosition: "-500px 0",
+        }}
       >
         Our Happy Clients!
       </motion.h2>

@@ -34,11 +34,17 @@ const Navigation = ({ forceScrolled = false }) => {
     let scrollTimeout;
 
     const handleScroll = () => {
-      // Clear previous timeout
       clearTimeout(scrollTimeout);
 
-      // Check if page is scrolled
-      setIsScrolled(window.scrollY > 50);
+      // Get hero section
+      const heroSection = document.getElementById("home");
+      let pastHero = false;
+      if (heroSection) {
+        const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+        pastHero = window.scrollY + 80 > heroBottom; // 80 for nav height offset
+      }
+
+      setIsScrolled(pastHero);
 
       // Determine active section based on scroll position
       const sections = navItems.map((item) => document.getElementById(item.id));
