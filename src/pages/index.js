@@ -377,8 +377,8 @@ export default function Home() {
       <AboutSection />
       <GlobalExpertiseSection />
       <CluboraExperienceSection />
-      <FeaturedClientsSection />
       <BestPracticesSection />
+      <FeaturedClientsSection />
       <TestimonialsSection />
       <ContactSection />
       <Footer />

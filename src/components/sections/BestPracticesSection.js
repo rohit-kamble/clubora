@@ -30,8 +30,7 @@ const BestPracticesSection = () => (
             src={uniformedStaff}
             alt="Modern Cityscape"
             layout="fill"
-            objectFit="cover"
-            className="opacity-40"
+            className="opacity-40 object-cover"
           />
         </div>
         <motion.div

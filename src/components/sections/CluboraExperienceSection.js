@@ -63,6 +63,12 @@ const services = [
     description:
       "We bring certified coaches from leading sports academies to your clubhouse—offering expert-led training in badminton, tennis, football, swimming, and more for all age groups.",
   },
+  {
+    icon: FaConciergeBell,
+    title: "FFMS – Facility & Manpower Experts",
+    description:
+      "FFMS is one of the growing facility management service providers trusted across industries. Their ability to deploy skilled and unskilled trained manpower across locations complements Clubora's service delivery—bringing strength, reliability, and scale to our clubhouse operations.",
+  },
 ];
 
 const CluboraExperienceSection = () => (
