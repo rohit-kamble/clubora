@@ -33,13 +33,11 @@ module.exports = {
         // Clubora Typography System
         sans: ["Inter", "sans-serif"],
         inter: ["Inter", "sans-serif"],
-        nunito: ["Nunito", "sans-serif"],
-        raleway: ["Raleway", "sans-serif"],
 
         // Legacy font families for backward compatibility
         headline: ["'Inter'", "serif"],
         body: ["Inter", "'Open Sans'", "sans-serif"],
-        button: ["Inter, Raleway Fallback", "sans-serif"],
+        button: ["Inter", "sans-serif"],
       },
       fontSize: {
         // Clubora Typography Sizes

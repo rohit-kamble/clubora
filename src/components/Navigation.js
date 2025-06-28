@@ -1,20 +1,14 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Playfair_Display, Lato, Montserrat, Raleway } from "next/font/google";
+import { Inter } from "next/font/google";
 import Image from "next/image";
 import logo from "../logo.png";
 import logoTitle from "../logoTiltle.png";
 
-const ralewayFont = Raleway({
+const inter = Inter({
   subsets: ["latin"],
   weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-Raleway",
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-montserrat",
+  variable: "--font-Inter",
 });
 
 const Navigation = ({ forceScrolled = false }) => {
@@ -104,11 +98,11 @@ const Navigation = ({ forceScrolled = false }) => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled || forceScrolled
-          ? "bg-white/60 backdrop-blur-md shadow-card"
-          : "bg-transparent"
-      }`}
+      style={{
+        background:
+          "linear-gradient(rgba(0, 0, 0, 0.68), rgba(0, 0, 0, 0.49), rgba(0, 0, 0, 0.29), rgba(0, 0, 0, 0))",
+      }}
+      className={`navbar-glass fixed top-0 left-0 right-0 z-50 transition-all duration-300`}
     >
       <div className={`max-w-7xl mx-auto py-4 `}>
         <div className="flex items-center justify-between h-10 md:h-12">
@@ -116,7 +110,7 @@ const Navigation = ({ forceScrolled = false }) => {
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`${playfair.className} text-2xl md:text-3xl font-bold ${
+            className={`${inter.className} text-2xl md:text-3xl font-[900] ${
               isScrolled || forceScrolled
                 ? "text-clubora-navy"
                 : "text-clubora-burntOrange"
@@ -144,7 +138,7 @@ const Navigation = ({ forceScrolled = false }) => {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection(item.id)}
                 className={` ${
-                  ralewayFont.className
+                  inter.className
                 } relative  px-3 py-2 text-sm font-medium transition-all duration-300 ${
                   activeSection === item.id
                     ? isScrolled || forceScrolled
@@ -236,9 +230,9 @@ const Navigation = ({ forceScrolled = false }) => {
                     whileHover={{ x: 10 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => scrollToSection(item.id)}
-                    className={`${
-                      ralewayFont.className
-                    } w-full text-left px-4 py-3 rounded-lg transition-all duration-300 font-medium ${
+                    className={`font-[900] ${
+                      inter.className
+                    } w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${
                       activeSection === item.id
                         ? "bg-burnt-orange text-clubora-burntOrange shadow-card"
                         : isScrolled || forceScrolled
