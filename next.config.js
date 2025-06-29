@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: "export", // required for out folder
+  output: "export", // required for out folder
   images: {
     unoptimized: true,
     // domains: ["images.unsplash.com"],

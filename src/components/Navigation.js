@@ -189,7 +189,7 @@ const Navigation = ({ forceScrolled = false }) => {
                 animate={isOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
                 className={`w-6 h-0.5 ${
                   isScrolled || forceScrolled
-                    ? "bg-clubora-navy"
+                    ? "bg-burnt-orange"
                     : "bg-clubora-white"
                 } transition-all duration-300`}
               />
@@ -197,7 +197,7 @@ const Navigation = ({ forceScrolled = false }) => {
                 animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
                 className={`w-6 h-0.5 mt-1 ${
                   isScrolled || forceScrolled
-                    ? "bg-clubora-navy"
+                    ? "bg-burnt-orange"
                     : "bg-clubora-white"
                 } transition-all duration-300`}
               />
@@ -205,7 +205,7 @@ const Navigation = ({ forceScrolled = false }) => {
                 animate={isOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
                 className={`w-6 h-0.5 mt-1 ${
                   isScrolled || forceScrolled
-                    ? "bg-clubora-navy"
+                    ? "bg-burnt-orange"
                     : "bg-clubora-white"
                 } transition-all duration-300`}
               />
@@ -223,13 +223,7 @@ const Navigation = ({ forceScrolled = false }) => {
               transition={{ duration: 0.3 }}
               className="lg:hidden overflow-hidden"
             >
-              <div
-                className={`py-4 space-y-2 border-t ${
-                  isScrolled || forceScrolled
-                    ? "border-clubora-gray/20 bg-clubora-white/95 backdrop-blur-md"
-                    : "border-clubora-white/20 bg-clubora-navy/20 backdrop-blur-md"
-                }`}
-              >
+              <div className={"py-4 space-y-2 "}>
                 {navItems.map((item) => (
                   <motion.button
                     key={item.id}
@@ -240,9 +234,9 @@ const Navigation = ({ forceScrolled = false }) => {
                       inter.className
                     } w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${
                       activeSection === item.id
-                        ? "bg-burnt-orange text-clubora-burntOrange shadow-card"
+                        ? "text-clubora-burntOrange shadow-card"
                         : isScrolled || forceScrolled
-                        ? "text-clubora-navy hover:bg-clubora-sky/20"
+                        ? "text-clubora-white hover:bg-burnt-orange/20"
                         : "text-clubora-burntOrange hover:bg-clubora-white/10"
                     }`}
                   >
