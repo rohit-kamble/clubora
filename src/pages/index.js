@@ -26,10 +26,7 @@ import {
 } from "react-icons/fa";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
-import logo from "../logo.png";
-import logoTitle from "../logoTiltle.png";
 import emailjs from "@emailjs/browser";
-import uniformedStaff from "../uniform.jpeg";
 import HeroSection from "../components/sections/HeroSection";
 import AboutSection from "../components/sections/AboutSection";
 import GlobalExpertiseSection from "../components/sections/GlobalExpertiseSection";
@@ -38,6 +35,8 @@ import FeaturedClientsSection from "../components/sections/FeaturedClientsSectio
 import BestPracticesSection from "../components/sections/BestPracticesSection";
 import TestimonialsSection from "../components/sections/TestimonialsSection";
 import ContactSection from "../components/sections/ContactSection";
+import WhatSetsUsApartSection from "@/components/sections/WhatSetsUsApartSection";
+import ServicePartnerSection from "../components/sections/ServicePartnerSection";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -375,12 +374,14 @@ export default function Home() {
       <Navigation />
       <HeroSection />
       <AboutSection />
-      <GlobalExpertiseSection />
-      <CluboraExperienceSection />
+      <WhatSetsUsApartSection />
       <BestPracticesSection />
+      <ServicePartnerSection />
+      <GlobalExpertiseSection />
       <FeaturedClientsSection />
       <TestimonialsSection />
       <ContactSection />
+
       <Footer />
     </div>
   );

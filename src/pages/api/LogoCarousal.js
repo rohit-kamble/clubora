@@ -6,7 +6,8 @@ import acacia from "../../client/Acacia logo.png";
 import avtaraVidaGoa from "../../client/Avtara_Vida Goa.png";
 import charviReemz from "../../client/Charvi Reemz.jpeg";
 import adhiraj from "../../client/Adhiraj.jpeg";
-import kpHorizontal from "../../client/kp-horizontal-01-01-01.png";
+import ashray from "../../client/Ashray.jpeg";
+import vianaarHomesLogo from "../../client/vianaar_homes_logo.jpeg";
 
 const logos = [
   { src: mirchandani, alt: "Mirchandani Group" },
@@ -16,7 +17,8 @@ const logos = [
   { src: avtaraVidaGoa, alt: "Avtara Vida Goa" },
   { src: charviReemz, alt: "Charvi Reemz" },
   { src: adhiraj, alt: "Adhiraj" },
-  { src: kpHorizontal, alt: "KP Horizontal" },
+  { src: ashray, alt: "Ashray" },
+  { src: vianaarHomesLogo, alt: "Vianaar Homes" },
 ];
 
 export default function LogoGrid() {

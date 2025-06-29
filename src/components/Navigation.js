@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Inter } from "next/font/google";
 import Image from "next/image";
-import logo from "../logo.png";
-import logoTitle from "../logoTiltle.png";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -123,16 +121,27 @@ const Navigation = ({ forceScrolled = false }) => {
             } cursor-pointer select-none`}
             onClick={() => scrollToSection("home")}
           >
-            {isScrolled || forceScrolled ? (
+            {/* {isScrolled || forceScrolled ? (
               <Image
-                src={logoTitle}
+                src="/logo.png"
                 alt="Clubora Logo"
                 width={200}
                 height={200}
                 className="drop-shadow-lg relative left-[-44px]"
                 priority
               />
-            ) : null}
+            ) : null} */}
+            <Image
+              src="/logo.png"
+              alt="Clubora Logo"
+              width={50}
+              height={50}
+              className="drop-shadow-lg"
+              priority
+              style={{
+                filter: "brightness(0) invert(1)",
+              }}
+            />
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -143,27 +152,13 @@ const Navigation = ({ forceScrolled = false }) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection(item.id)}
-                className={` ${
-                  inter.className
-                } relative  px-3 py-2 text-sm font-medium transition-all duration-300 ${
-                  activeSection === item.id
-                    ? isScrolled || forceScrolled
-                      ? "text-clubora-burntOrange"
-                      : "text-clubora-white"
-                    : isScrolled || forceScrolled
-                    ? "text-clubora-burntOrange hover:text-clubora-burntOrange"
-                    : "text-clubora-white hover:text-clubora-white"
-                }`}
+                className={` ${inter.className} relative  px-3 py-2 text-sm font-medium transition-all duration-300 text-clubora-white `}
               >
                 {item.label}
                 {activeSection === item.id && (
                   <motion.div
                     layoutId="activeSection"
-                    className={`absolute bottom-0 left-0 right-0 h-0.5 ${
-                      isScrolled || forceScrolled
-                        ? "bg-burnt-orange"
-                        : "bg-white"
-                    }`}
+                    className={`absolute bottom-0 left-0 right-0 h-0.5 bg-white`}
                     initial={false}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />

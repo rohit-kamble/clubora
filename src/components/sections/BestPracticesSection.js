@@ -21,7 +21,7 @@ const staggerContainer = {
 };
 
 const BestPracticesSection = () => (
-  <motion.section className="bg-white">
+  <motion.section className="bg-white my-[100px]">
     <div className="grid grid-cols-1 lg:grid-cols-2">
       {/* Left Column - Image and Text */}
       <div className="relative flex items-center justify-center p-8 md:p-12 text-white bg-black">

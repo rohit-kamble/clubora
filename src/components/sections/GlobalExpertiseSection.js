@@ -72,13 +72,13 @@ const cardVariants = {
       damping: 18,
     },
   }),
-  hover: {
-    scale: 1.06,
-    boxShadow:
-      "0 8px 32px 0 rgba(211, 84, 0, 0.18), 0 1.5px 8px 0 rgba(0,0,0,0.10)",
-    borderColor: "#D35400",
-    transition: { duration: 0.25 },
-  },
+  // hover: {
+  //   scale: 1.06,
+  //   boxShadow:
+  //     "0 8px 32px 0 rgba(211, 84, 0, 0.18), 0 1.5px 8px 0 rgba(0,0,0,0.10)",
+  //   borderColor: "#D35400",
+  //   transition: { duration: 0.25 },
+  // },
 };
 
 const titleVariants = {
@@ -109,14 +109,15 @@ const GlobalExpertiseSection = () => (
       variants={titleVariants}
       initial="hidden"
       animate="visible"
-      className="text-5xl md:text-6xl font-extrabold mb-10 inline-block bg-gradient-to-r from-burnt-orange via-clubora-gold to-clubora-navy bg-[length:200%_100%] bg-clip-text text-transparent relative"
-      style={{
-        animation: "shimmer 2.5s linear infinite",
-        backgroundImage:
-          "linear-gradient(90deg, #D35400 0%, #FFD580 40%, #0F2C3F 100%)",
-        backgroundSize: "200% 100%",
-        backgroundPosition: "-500px 0",
-      }}
+      className="text-5xl md:text-6xl font-extrabold mb-4 inline-block text-muted relative"
+      // className="text-5xl md:text-6xl font-extrabold mb-4 inline-block bg-gradient-to-r from-burnt-orange via-clubora-gold to-clubora-navy bg-[length:200%_100%] bg-clip-text text-transparent relative"
+      // style={{
+      //   animation: "shimmer 2.5s linear infinite",
+      //   backgroundImage:
+      //     "linear-gradient(90deg, #D35400 0%, #FFD580 40%, #0F2C3F 100%)",
+      //   backgroundSize: "200% 100%",
+      //   backgroundPosition: "-500px 0",
+      // }}
     >
       Global Expertise Local Excellence
     </motion.h2>
@@ -128,7 +129,7 @@ const GlobalExpertiseSection = () => (
           variants={cardVariants}
           initial="hidden"
           whileInView="visible"
-          whileHover="hover"
+          // whileHover="hover"
           viewport={{ once: true, amount: 0.2 }}
           className="relative rounded-2xl shadow-xl border border-transparent p-8 text-center transition-all duration-300 flex flex-col items-center group overflow-hidden h-80"
           style={{
@@ -141,18 +142,16 @@ const GlobalExpertiseSection = () => (
         >
           {/* Floating gradient accent on hover */}
           <motion.div
-            className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-burnt-orange opacity-0 group-hover:opacity-20 blur-2xl z-0"
+            className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-burnt-orange opacity-0 z-0"
             animate={{}}
             transition={{ duration: 0.3 }}
           />
           <div className="relative z-10 flex flex-col items-center justify-center h-full">
             {card.icon}
-            <h3 className="text-2xl font-extrabold mb-2 text-white group-hover:text-clubora-gold transition-colors duration-300 drop-shadow-lg">
+            <h3 className="text-2xl font-extrabold mb-2 text-white transition-colors duration-300">
               {card.title}
             </h3>
-            <p className="text-sm text-gray-200 font-medium drop-shadow-lg">
-              {card.desc}
-            </p>
+            <p className="text-sm text-gray-200 font-medium ">{card.desc}</p>
           </div>
         </motion.div>
       ))}

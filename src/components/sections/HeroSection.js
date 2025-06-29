@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
-import logoTitle from "../../logoTiltle.png";
+import logoTitle from "../../logoTitle.png";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -42,6 +42,9 @@ const HeroSection = () => (
           height={80}
           className="mx-auto drop-shadow-lg"
           priority
+          style={{
+            filter: "brightness(0) invert(1)",
+          }}
         />
       </motion.div>
     </div>

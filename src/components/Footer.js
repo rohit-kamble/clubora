@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React from "react";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
-import logoTitle from "../logoTiltle.png";
 
 const Footer = () => {
   return (
@@ -10,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1: About */}
           <div className="space-y-4">
-            <Image
+            {/* <Image
               src={logoTitle}
               alt="Clubora Logo"
               width={200}
@@ -20,7 +19,7 @@ const Footer = () => {
               //   filter: "brightness(0) invert(1)",
               // }}
               priority
-            />
+            /> */}
           </div>
 
           {/* Column 2: Our Services */}

@@ -186,7 +186,7 @@ const CluboraExperienceSection = () => (
     >
       {`At Clubora, we believe a great clubhouse is not just about amenities—it's about how they're brought to life. That's why our focus is on placing the right people, with the right training, in the right roles. Every service we offer is designed to create a warm, seamless, and enriching resident experience`}
     </motion.p>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
       {services.map((service, index) => (
         <motion.div
           key={index}
