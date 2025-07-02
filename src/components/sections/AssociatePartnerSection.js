@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Slider from "react-slick";
+import softPic from "../../pics/softServices.jpg";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -226,7 +226,7 @@ const AssociatePartnerSection = () => (
       <div className="relative flex items-center justify-center p-8 md:p-12 text-white bg-black">
         <div className="absolute inset-0">
           <Image
-            src={"./banner.png"}
+            src={softPic}
             alt="Modern Cityscape"
             layout="fill"
             className="opacity-40 object-cover"

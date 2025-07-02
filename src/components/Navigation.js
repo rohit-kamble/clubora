@@ -184,7 +184,7 @@ const Navigation = ({ forceScrolled = false }) => {
                 animate={isOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
                 className={`w-6 h-0.5 ${
                   isScrolled || forceScrolled
-                    ? "bg-burnt-orange"
+                    ? "bg-clubora-white"
                     : "bg-clubora-white"
                 } transition-all duration-300`}
               />
@@ -192,7 +192,7 @@ const Navigation = ({ forceScrolled = false }) => {
                 animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
                 className={`w-6 h-0.5 mt-1 ${
                   isScrolled || forceScrolled
-                    ? "bg-burnt-orange"
+                    ? "bg-clubora-white"
                     : "bg-clubora-white"
                 } transition-all duration-300`}
               />
@@ -200,7 +200,7 @@ const Navigation = ({ forceScrolled = false }) => {
                 animate={isOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
                 className={`w-6 h-0.5 mt-1 ${
                   isScrolled || forceScrolled
-                    ? "bg-burnt-orange"
+                    ? "bg-clubora-white"
                     : "bg-clubora-white"
                 } transition-all duration-300`}
               />

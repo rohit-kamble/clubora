@@ -8,12 +8,12 @@ import {
 import { MdSportsTennis } from "react-icons/md";
 
 // Import background images
-import tennisBg from "../../clubora_pics/pexels-kampus-8941567.jpg";
-import swimmingBg from "../../clubora_pics/pexels-djvvadi-17264037.jpg";
-import yogaBg from "../../clubora_pics/iris-lavoie-_45xHZTWlTY-unsplash.jpg";
-import sportsBg from "../../clubora_pics/sports-tools.jpg";
-import musicBg from "../../clubora_pics/pexels-zachtheshoota-1838640.jpg";
-import badmintonBg from "../../clubora_pics/pexels-thatguycraig000-28748061.jpg";
+import tennisBg from "../../pics/sportAcadamy.jpg";
+import swimmingBg from "../../pics/pool.jpg";
+import yogaBg from "../../pics/billiardtable.jpg";
+import sportsBg from "../../pics/gamezone.jpg";
+import musicBg from "../../pics/billiardtable.jpg";
+import badmintonBg from "../../pics/gamezone.jpg";
 
 const cardData = [
   {
