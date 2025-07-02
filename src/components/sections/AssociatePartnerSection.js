@@ -107,14 +107,14 @@ const AssociatePartnerSection = () => (
         variants={staggerContainer}
         className="max-w-4xl mx-auto mt-12"
       >
-        <motion.p
+        {/* <motion.p
           variants={fadeIn}
           className="text-xl text-clubora-burntOrange/90 mb-12 leading-relaxed"
         >
           Our attentive housekeeping team keeps all clubhouse and activity areas
           clean, fresh, and well-maintained—creating a welcoming environment
           every single day.
-        </motion.p>
+        </motion.p> */}
       </motion.div>
     </div>
     <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -129,7 +129,7 @@ const AssociatePartnerSection = () => (
           variants={fadeIn}
           className="flex flex-col items-center justify-center text-center p-4"
         >
-          <div className="w-12 h-12 bg-burnt-orange rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-12 h-12 bg-burnt-orange rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-white">
             <svg
               className="w-6 h-6 text-white"
               fill="currentColor"
@@ -154,7 +154,7 @@ const AssociatePartnerSection = () => (
           variants={fadeIn}
           className="flex flex-col items-center justify-center text-center p-4"
         >
-          <div className="w-12 h-12 bg-burnt-orange rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-12 h-12 bg-burnt-orange rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-white">
             <svg
               className="w-6 h-6 text-white"
               fill="currentColor"
@@ -180,7 +180,7 @@ const AssociatePartnerSection = () => (
           variants={fadeIn}
           className="flex flex-col items-center justify-center text-center p-4"
         >
-          <div className="w-12 h-12 bg-burnt-orange rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-12 h-12 bg-burnt-orange rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-white">
             <svg
               className="w-6 h-6 text-white"
               fill="currentColor"
@@ -201,7 +201,7 @@ const AssociatePartnerSection = () => (
           variants={fadeIn}
           className="flex flex-col items-center justify-center text-center p-4"
         >
-          <div className="w-12 h-12 bg-burnt-orange rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-12 h-12 bg-burnt-orange rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-white">
             <svg
               className="w-6 h-6 text-white"
               fill="currentColor"
