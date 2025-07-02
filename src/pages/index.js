@@ -37,6 +37,7 @@ import TestimonialsSection from "../components/sections/TestimonialsSection";
 import ContactSection from "../components/sections/ContactSection";
 import WhatSetsUsApartSection from "@/components/sections/WhatSetsUsApartSection";
 import ServicePartnerSection from "../components/sections/ServicePartnerSection";
+import AssociatePartnerSection from "@/components/sections/AssociatePartnerSection";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -379,6 +380,7 @@ export default function Home() {
       <ServicePartnerSection />
       <GlobalExpertiseSection />
       <FeaturedClientsSection />
+      <AssociatePartnerSection />
       <TestimonialsSection />
       <ContactSection />
 

@@ -31,7 +31,7 @@ const HeroSection = () => (
       <source src="/videos/banner.mp4" type="video/mp4" />
     </video> */}
     {/* Dark overlay for better text readability */}
-    <div className="absolute inset-0 bg-black/50 z-20" />
+    {/* <div className="absolute inset-0 bg-black/50 z-20" /> */}
     {/* Hero Content */}
     <div className="relative z-30 flex flex-col items-center justify-center w-full">
       <motion.div variants={fadeIn} className="mb-6">
