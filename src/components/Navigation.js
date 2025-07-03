@@ -108,7 +108,7 @@ const Navigation = ({ forceScrolled = false }) => {
       }}
       className={`navbar-glass fixed top-0 left-0 right-0 z-50 transition-all duration-300`}
     >
-      <div className={`max-w-7xl mx-auto py-4 `}>
+      <div className={` py-6 px-8`}>
         <div className="flex items-center justify-between h-10 md:h-12">
           {/* Logo */}
           <motion.div

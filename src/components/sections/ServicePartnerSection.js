@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { FaUsers } from "react-icons/fa";
+import Image from "next/image";
+import ffms from "../../pics/ffs.jpg";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -63,12 +64,13 @@ const ServicePartnerSection = () => (
       animate="visible"
       className="bg-white rounded-2xl  max-w-2xl w-full p-8 flex flex-col items-center text-center"
     >
-      <motion.div variants={itemVariants}>
+      {/* <motion.div variants={itemVariants}>
         <FaUsers className="w-12 h-12 text-[#D35400] mb-4" />
-      </motion.div>
+      </motion.div> */}
+      <Image src={ffms} width={100} height={100} alt="FFMS" />
       <motion.h3
         variants={itemVariants}
-        className="text-2xl md:text-3xl font-semibold mb-3 text-[#D35400]"
+        className="text-2xl md:text-3xl font-semibold mb-3 mt-4 text-[#D35400]"
       >
         FFMS – Facility & Manpower Experts
       </motion.h3>

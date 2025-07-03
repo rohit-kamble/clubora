@@ -38,6 +38,7 @@ import ContactSection from "../components/sections/ContactSection";
 import WhatSetsUsApartSection from "@/components/sections/WhatSetsUsApartSection";
 import ServicePartnerSection from "../components/sections/ServicePartnerSection";
 import AssociatePartnerSection from "@/components/sections/AssociatePartnerSection";
+import Footer2 from "@/components/Footer2";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -378,13 +379,15 @@ export default function Home() {
       <WhatSetsUsApartSection />
       <BestPracticesSection />
       <ServicePartnerSection />
+      <AssociatePartnerSection />
       <GlobalExpertiseSection />
       <FeaturedClientsSection />
-      <AssociatePartnerSection />
+
       <TestimonialsSection />
       <ContactSection />
 
-      <Footer />
+      {/* <Footer /> */}
+      <Footer2 />
     </div>
   );
 }

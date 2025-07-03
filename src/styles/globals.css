@@ -140,6 +140,10 @@ nav {
   background-color: #d35400;
 }
 
+.bg-clubora-gray {
+  background-color: var(--color-text-muted);
+}
+
 /* Clubora Color System */
 .text-primary {
   color: var(--color-primary);
