@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -91,14 +93,6 @@ const TestimonialsSection = () => (
         initial="hidden"
         animate="visible"
         className="text-5xl md:text-6xl font-extrabold mb-4 inline-block text-muted relative"
-        // className="text-5xl md:text-6xl font-extrabold mb-4 inline-block bg-gradient-to-r from-burnt-orange via-clubora-gold to-clubora-navy bg-[length:200%_100%] bg-clip-text text-transparent relative"
-        // style={{
-        //   animation: "shimmer 2.5s linear infinite",
-        //   backgroundImage:
-        //     "linear-gradient(90deg, #D35400 0%, #FFD580 40%, #0F2C3F 100%)",
-        //   backgroundSize: "200% 100%",
-        //   backgroundPosition: "-500px 0",
-        // }}
       >
         Our Happy Clients!
       </motion.h2>

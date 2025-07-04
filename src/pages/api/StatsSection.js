@@ -1,6 +1,8 @@
-import React, { useRef } from "react";
+import React from "react";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
+import backedByExperience from "../../pics/backed_by_exp.jpg";
+import Image from "next/image";
 
 const stats = [
   { label: "Communities Transformed", value: 30 },
@@ -15,13 +17,12 @@ export default function StatsSection() {
   });
 
   return (
-    <div
-      ref={ref}
-      className="relative py-20 mt-20 bg-cover bg-center bg-fixed"
-      style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?au')`,
-      }}
-    >
+    <div ref={ref} className="relative py-20 mt-20">
+      <Image
+        src={backedByExperience}
+        alt="Backed by Experience"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
       <div className="absolute inset-0 bg-black/60" />
       <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
         <p className="text-3xl font-bold text-clubora-white">
