@@ -10,14 +10,14 @@ import {
 import Image from "next/image";
 
 // Import background images
-import receptionBg from "../../clubora_pics/hotel-lobby-interior.jpg";
-import fitnessBg from "../../clubora_pics/rodrigo-s-2mz9IKab7DE-unsplash.jpg";
-import poolBg from "../../clubora_pics/pexels-djvvadi-17264037.jpg";
-import gamesBg from "../../clubora_pics/sports-tools.jpg";
-import kidsBg from "../../clubora_pics/jiran-family-TGpQigr4JY8-unsplash.jpg";
-import eventsBg from "../../clubora_pics/people-having-fun-wedding-hall.jpg";
-import sportsAcademyBg from "../../clubora_pics/pexels-kampus-8941567.jpg";
-import ffmsBg from "../../clubora_pics/modern-interior-design-office.jpg";
+import receptionBg from "../../pics/1_Reception.jpg";
+import fitnessBg from "../../pics/2_fitness.jpg";
+import poolBg from "../../pics/3_pool.jpg";
+import gamesBg from "../../pics/4_games.jpg";
+import kidsBg from "../../pics/5_play_area.jpg";
+import eventsBg from "../../pics/6_events.jpg";
+import sportsAcademyBg from "../../pics/7_acadmies.jpg";
+import ffmsBg from "../../pics/ffs.jpg";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 40 },

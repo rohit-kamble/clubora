@@ -5,7 +5,7 @@ import {
   FaHandSparkles,
   FaClipboardCheck,
 } from "react-icons/fa";
-import housekeepingImage from "../../clubora_pics/close-up-fresh-towels-yellow-lily-sauna.jpg";
+import housekeepingImage from "../../pics/softServices.jpg";
 
 const services = [
   {
